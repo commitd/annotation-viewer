@@ -22,6 +22,11 @@
     "deploy": "gh-pages -d example/build",
     "storybook": "start-storybook -p 9001 -c .storybook"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged --pattern './**/*.*(ts|tsx|json)'",
+      "pre-push": "yarn build && yarn test"
+    }
   },
   "dependencies": {},
   "peerDependencies": {
