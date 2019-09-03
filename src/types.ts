@@ -16,4 +16,8 @@ export interface EntityAnnotation extends Annotation {
   entityType: string
 }
 
-export type AnnotationUnion = EntityAnnotation
+export interface RelationshipSpanAnnotation extends Annotation {
+  annotationType: 'relationship-span'
+}
+
+export type AnnotationUnion = EntityAnnotation | RelationshipSpanAnnotation

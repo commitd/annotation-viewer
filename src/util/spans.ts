@@ -8,8 +8,8 @@ export const isIntersecting = (s1: Span, s2: Span) =>
 
 export const getEnd = (span: Span) => span.offset + span.length
 
-const spanContainsIndex = (span: Span, index: number) =>
+export const spanContainsIndex = (span: Span, index: number) =>
   span.offset <= index && index < getEnd(span)
 
-const spanContainsSpan = (s1: Span, s2: Span) =>
+export const spanContainsSpan = (s1: Span, s2: Span) =>
   s1.offset <= s2.offset && getEnd(s2) <= getEnd(s1)

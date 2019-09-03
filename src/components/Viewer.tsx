@@ -1,12 +1,14 @@
 import * as React from 'react'
-import { Annotation, EntityAnnotation } from '../types'
+import { EntityAnnotation, AnnotationUnion } from '../types'
 import { tokenise } from '../util/tokeniser'
 import Entity from './Entity'
+import { spanContainsSpan } from '../util/spans'
+import Relationship from './Relationship'
 
 interface ViewerProps {
   text: string
-  annotations: Annotation[]
-  onAnnotationClick?: (annotation: Annotation) => void
+  annotations: AnnotationUnion[]
+  onAnnotationClick?: (annotation: AnnotationUnion) => void
   renderText?: (text: string) => React.ReactNode
 }
 
@@ -16,29 +18,49 @@ const Viewer: React.FC<ViewerProps> = ({
   renderText = (t: string) => <>{t}</>,
   onAnnotationClick
 }) => {
-  const tokens = tokenise(
+  const relationshipSpanTokens = tokenise(
     text,
-    annotations.filter(a => a.annotationType === 'entity')
+    annotations.filter(a => a.annotationType === 'relationship-span')
   )
 
   return (
     <>
-      {tokens.map(t => {
-        const entity = t.annotations.find(a => a.annotationType === 'entity')
-        const text = renderText(t.text)
-        return entity == null ? (
-          text
-        ) : (
-          <Entity
-            annotation={entity as EntityAnnotation}
-            onClick={
-              onAnnotationClick == null
-                ? undefined
-                : () => onAnnotationClick(entity)
-            }
-          >
-            {text}
-          </Entity>
+      {relationshipSpanTokens.map(rt => {
+        const entityTokens = tokenise(
+          rt.text,
+          annotations
+            .filter(a => a.annotationType === 'entity')
+            // TODO dont remove entities partially overlapping relationship span
+            .filter(a => spanContainsSpan(rt, a))
+            .map(o => Object.assign({}, o, { offset: o.offset - rt.offset }))
+        )
+        const relationship = rt.annotations.find(
+          a => a.annotationType === 'relationship-span'
+        )
+        const TokenComponent = relationship ? Relationship : React.Fragment
+        return (
+          <TokenComponent>
+            {entityTokens.map(t => {
+              const entity = t.annotations.find(
+                a => a.annotationType === 'entity'
+              )
+              const text = renderText(t.text)
+              return entity == null ? (
+                text
+              ) : (
+                <Entity
+                  annotation={entity as EntityAnnotation}
+                  onClick={
+                    onAnnotationClick == null
+                      ? undefined
+                      : () => onAnnotationClick(entity)
+                  }
+                >
+                  {text}
+                </Entity>
+              )
+            })}
+          </TokenComponent>
         )
       })}
     </>
