@@ -2,8 +2,7 @@ import * as React from 'react'
 
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import { Annotation, EntityAnnotation, AnnotationUnion } from '../types'
-import Entity from '../components/Entity'
+import { AnnotationUnion } from '../types'
 import Viewer from '../components/Viewer'
 import { contained } from './decorators'
 import { Typography } from '@material-ui/core'
@@ -13,17 +12,81 @@ const text = `The British people are represented by members of Parliament, not r
 const annotations: AnnotationUnion[] = [
   {
     offset: 4,
-    length: 14,
-    label: 'British residents',
-    annotationType: 'entity',
-    entityType: 'per'
+    length: 7,
+    entityType: 'NORP',
+    annotationType: 'entity'
   },
   {
     offset: 49,
     length: 10,
-    label: 'HM Parliament',
-    annotationType: 'entity',
-    entityType: 'org'
+    entityType: 'ORG',
+    annotationType: 'entity'
+  },
+  {
+    offset: 99,
+    length: 21,
+    entityType: 'EVENT',
+    annotationType: 'entity'
+  },
+  {
+    offset: 122,
+    length: 15,
+    entityType: 'PERSON',
+    annotationType: 'entity'
+  },
+  {
+    offset: 145,
+    length: 14,
+    entityType: 'ORG',
+    annotationType: 'entity'
+  },
+  {
+    offset: 247,
+    length: 5,
+    entityType: 'ORG',
+    annotationType: 'entity'
+  },
+  {
+    offset: 292,
+    length: 10,
+    entityType: 'ORG',
+    annotationType: 'entity'
+  },
+  {
+    offset: 307,
+    length: 5,
+    entityType: 'ORDINAL',
+    annotationType: 'entity'
+  },
+  {
+    offset: 325,
+    length: 10,
+    entityType: 'ORG',
+    annotationType: 'entity'
+  },
+  {
+    offset: 373,
+    length: 27,
+    entityType: 'DATE',
+    annotationType: 'entity'
+  },
+  {
+    offset: 445,
+    length: 22,
+    entityType: 'DATE',
+    annotationType: 'entity'
+  },
+  {
+    offset: 538,
+    length: 4,
+    entityType: 'DATE',
+    annotationType: 'entity'
+  },
+  {
+    offset: 570,
+    length: 8,
+    entityType: 'PERCENT',
+    annotationType: 'entity'
   }
 ]
 
