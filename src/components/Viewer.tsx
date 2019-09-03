@@ -31,7 +31,11 @@ const Viewer: React.FC<ViewerProps> = ({
         ) : (
           <Entity
             annotation={entity as EntityAnnotation}
-            onClick={onAnnotationClick}
+            onClick={
+              onAnnotationClick == null
+                ? undefined
+                : () => onAnnotationClick(entity)
+            }
           >
             {text}
           </Entity>
