@@ -12,7 +12,7 @@ export const baselined = (story: RenderFunction) => (
 export const contained = (story: RenderFunction) => (
   <>
     <CssBaseline />
-    <Container style={{ marginTop: 24 }} maxWidth="md">
+    <Container style={{ marginTop: 24 }} maxWidth="lg">
       {story()}
     </Container>
   </>

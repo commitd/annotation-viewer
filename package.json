@@ -18,6 +18,7 @@
     "storybook": "start-storybook -p 9001 -c .storybook"
   },
   "dependencies": {
+    "@types/randomcolor": "^0.5.3",
     "@types/tinycolor2": "^1.4.2",
     "hashcode": "^1.0.3",
     "tinycolor2": "^1.4.1"
@@ -28,7 +29,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged"
+      "pre-commit": "pretty-quick --staged --pattern \"**/*.*(ts|tsx)\""
     }
   },
   "prettier": {
@@ -38,6 +39,7 @@
   },
   "devDependencies": {
     "@material-ui/core": "^4.4.0",
+    "@material-ui/icons": "^4.2.1",
     "@storybook/addon-actions": "^5.1.11",
     "@storybook/addon-info": "^5.1.11",
     "@storybook/react": "^5.1.11",
@@ -49,6 +51,7 @@
     "husky": "^3.0.5",
     "prettier": "^1.18.2",
     "pretty-quick": "^1.11.1",
+    "randomcolor": "^0.5.4",
     "react": "^16.9.0",
     "react-docgen-typescript-loader": "^3.2.0",
     "react-dom": "^16.9.0",

@@ -5,7 +5,11 @@ import { action } from '@storybook/addon-actions'
 import { AnnotationUnion } from '../types'
 import Viewer from '../components/Viewer'
 import { contained } from './decorators'
-import { Typography } from '@material-ui/core'
+import randomColor from 'randomcolor'
+import PersonIcon from '@material-ui/icons/Person'
+import OrgIcon from '@material-ui/icons/LocationCity'
+import EventIcon from '@material-ui/icons/EventNote'
+import NorpIcon from '@material-ui/icons/Language'
 
 const text = `The British people are represented by members of Parliament, not ruled by monarchs. However, after the English Civil War, Oliver Cromwell became Lord Protector, and the monarchy was disbanded.`
 
@@ -61,21 +65,73 @@ const annotations: AnnotationUnion[] = [
 const props = {
   text,
   annotations,
-  onAnnotationClick: action('clicked on annotation'),
-  renderText: (text: string) => <span>{text}</span>
+  onAnnotationClick: action('clicked on annotation')
 }
 
 storiesOf('AnnotationViewer', module)
   .addDecorator(contained)
-  .add('with defaults', () => <Viewer {...props} />)
-  .add('with styled text', () => (
+  .add('simple example', () => (
+    <Viewer
+      text="The British people are represented by members of Parliament"
+      annotations={[
+        {
+          offset: 4,
+          length: 7,
+          entityType: 'NORP',
+          annotationType: 'entity'
+        },
+        {
+          offset: 4,
+          length: 55,
+          annotationType: 'relationship-span'
+        },
+        {
+          offset: 49,
+          length: 10,
+          entityType: 'ORG',
+          annotationType: 'entity'
+        }
+      ]}
+    />
+  ))
+  .add('full example', () => <Viewer {...props} />)
+  .add('entity type hidden', () => <Viewer {...props} hideEntityType={true} />)
+  .add('custom colours', () => (
     <Viewer
       {...props}
-      renderText={t => (
-        // must override default component="p" to use inline component
-        <Typography component="span" variant="h4">
-          {t}
-        </Typography>
+      entityColors={new Array(10).map(() =>
+        randomColor({ luminosity: 'light' })
       )}
+      relationshipColor={randomColor({ luminosity: 'dark' })}
+    />
+  ))
+  .add('custom colour preset', () => (
+    <Viewer
+      {...props}
+      entityColorPresets={{
+        PERSON: 'red'
+      }}
+    />
+  ))
+  .add('full example styled text', () => (
+    <Viewer {...props} typographyProps={{ variant: 'h5' }} />
+  ))
+  .add('custom entity icons', () => (
+    <Viewer
+      {...props}
+      renderEntityType={type => {
+        switch (type) {
+          case 'PERSON':
+            return <PersonIcon fontSize="inherit" />
+          case 'ORG':
+            return <OrgIcon fontSize="inherit" />
+          case 'NORP':
+            return <NorpIcon fontSize="inherit" />
+          case 'EVENT':
+            return <EventIcon fontSize="inherit" />
+          default:
+            return type
+        }
+      }}
     />
   ))

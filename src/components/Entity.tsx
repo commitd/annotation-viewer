@@ -2,40 +2,82 @@ import * as React from 'react'
 import { EntityAnnotation } from '../types'
 import { makeStyles } from '@material-ui/core/styles'
 import { generateBackgroundColor } from '../util/colorGenerator'
+import tinycolor from 'tinycolor2'
+import Typography, { TypographyProps } from '@material-ui/core/Typography'
+import { BackgroundColorProperty } from 'csstype'
+import { Tooltip } from '@material-ui/core'
 
 interface EntityProps {
   annotation: EntityAnnotation
   onClick?: () => void
+  hideEntityType?: boolean
+  typographyProps?: TypographyProps
+  entityColors?: BackgroundColorProperty[]
+  entityColorPresets?: { [index: string]: string }
+  renderEntityType?: (entityType: string) => React.ReactNode
 }
-const useStyles = makeStyles(_theme => ({
+const useStyles = makeStyles(theme => ({
   root: {
     display: 'inline-block',
     cursor: 'pointer',
-    padding: '0.25em 0',
+    padding: '0.25em',
     lineHeight: 1,
     // dont break across multiple lines,
     ['-webkit-box-decoration-break']: 'clone',
     transitionDuration: '0.3s',
-    transitionTimingFunction: 'ease-out'
+    transitionTimingFunction: 'ease-out',
+    borderRadius: theme.shape.borderRadius
+  },
+  type: {
+    padding: '.2em .3em',
+    margin: '0 .25em',
+    lineHeight: 1,
+    display: 'inline-block',
+    borderRadius: theme.shape.borderRadius,
+    background: 'white',
+    color: theme.palette.text.primary,
+    userSelect: 'none'
   }
 }))
 
-const Entity: React.FC<EntityProps> = ({ children, annotation, onClick }) => {
+const getBorder = (backgroundColor: string) =>
+  '2px solid ' +
+  tinycolor(backgroundColor)
+    .darken(10)
+    .toRgbString()
+
+const Entity: React.FC<EntityProps> = ({
+  children,
+  annotation,
+  onClick,
+  hideEntityType,
+  typographyProps,
+  entityColors,
+  entityColorPresets,
+  renderEntityType = type => type
+}) => {
   const classes = useStyles()
-  const opacity = 0.3
-  const backgroundColor = generateBackgroundColor(
-    annotation.entityType,
-    opacity
-  )
-  const border = '1px solid ' + generateBackgroundColor(annotation.entityType)
+  const backgroundColor = generateBackgroundColor(annotation.entityType, {
+    entityColors,
+    entityColorPresets
+  })
+  const color = tinycolor(backgroundColor).isDark() ? '#fff' : '#000'
+
   return (
-    <span
-      className={classes.root}
-      style={{ backgroundColor, outline: border }}
-      onClick={onClick}
-    >
-      {children}
-    </span>
+    <Tooltip title={annotation.entityType}>
+      <span
+        className={classes.root}
+        style={{ backgroundColor, border: getBorder(backgroundColor), color }}
+        onClick={onClick}
+      >
+        {children}
+        {!hideEntityType && (
+          <Typography className={classes.type} {...typographyProps}>
+            {renderEntityType(annotation.entityType)}
+          </Typography>
+        )}
+      </span>
+    </Tooltip>
   )
 }
 

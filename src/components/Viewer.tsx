@@ -4,27 +4,49 @@ import { tokenise } from '../util/tokeniser'
 import Entity from './Entity'
 import { spanContainsSpan } from '../util/spans'
 import Relationship from './Relationship'
+import { makeStyles } from '@material-ui/core'
+import Typography, { TypographyProps } from '@material-ui/core/Typography'
 
 interface ViewerProps {
   text: string
   annotations: AnnotationUnion[]
   onAnnotationClick?: (annotation: AnnotationUnion) => void
-  renderText?: (text: string) => React.ReactNode
+  typographyProps?: TypographyProps
+  hideEntityType?: boolean
+  entityColors?: string[]
+  relationshipColor?: string
+  entityColorPresets?: { [index: string]: string }
+  renderEntityType?: (entityType: string) => React.ReactNode
 }
+const useStyles = makeStyles(_theme => ({
+  text: {
+    fontSize: '20px',
+    lineHeight: '2.5',
+    wordSpacing: '0.05em',
+    minWidth: '100px',
+    display: 'inline-block'
+  }
+}))
 
 const Viewer: React.FC<ViewerProps> = ({
   text,
   annotations,
-  renderText = (t: string) => <>{t}</>,
-  onAnnotationClick
+  typographyProps,
+  onAnnotationClick,
+  hideEntityType,
+  entityColors,
+  relationshipColor,
+  entityColorPresets,
+  renderEntityType
 }) => {
   const relationshipSpanTokens = tokenise(
     text,
     annotations.filter(a => a.annotationType === 'relationship-span')
   )
+  const classes = useStyles()
 
   return (
-    <>
+    <div className={classes.text}>
       {relationshipSpanTokens.map(rt => {
         const entityTokens = tokenise(
           rt.text,
@@ -37,33 +59,48 @@ const Viewer: React.FC<ViewerProps> = ({
         const relationship = rt.annotations.find(
           a => a.annotationType === 'relationship-span'
         )
-        const TokenComponent = relationship ? Relationship : React.Fragment
-        return (
-          <TokenComponent>
+        const content = (
+          <>
             {entityTokens.map(t => {
               const entity = t.annotations.find(
                 a => a.annotationType === 'entity'
               )
-              const text = renderText(t.text)
+              const text = (
+                <Typography {...typographyProps} display="inline">
+                  {t.text}
+                </Typography>
+              )
               return entity == null ? (
                 text
               ) : (
                 <Entity
                   annotation={entity as EntityAnnotation}
+                  hideEntityType={hideEntityType}
                   onClick={
                     onAnnotationClick == null
                       ? undefined
                       : () => onAnnotationClick(entity)
                   }
+                  typographyProps={typographyProps}
+                  entityColors={entityColors}
+                  entityColorPresets={entityColorPresets}
+                  renderEntityType={renderEntityType}
                 >
                   {text}
                 </Entity>
               )
             })}
-          </TokenComponent>
+          </>
+        )
+        return relationship ? (
+          <Relationship relationshipColor={relationshipColor}>
+            {content}
+          </Relationship>
+        ) : (
+          content
         )
       })}
-    </>
+    </div>
   )
 }
 

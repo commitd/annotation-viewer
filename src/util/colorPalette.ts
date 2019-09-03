@@ -1,7 +1,7 @@
 // From https://sashat.me/2017/01/11/list-of-20-simple-distinct-colors/
 // Black and White have been removed
 
-export const colorPalette: string[] = [
+export const defaultEntityColors: string[] = [
   '#e6194B',
   '#3cb44b',
   '#ffe119',
@@ -23,9 +23,3 @@ export const colorPalette: string[] = [
   '#000075',
   '#a9a9a9'
 ]
-
-export const presets: { [index: string]: string } = {
-  PERSON: '#000075',
-  PLACE: '#469990',
-  GROUP: '#808000'
-}
