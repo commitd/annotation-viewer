@@ -2,7 +2,7 @@ import tinycolor2 from 'tinycolor2'
 import { defaultEntityColors } from './colorPalette'
 // @ts-ignore
 import { hashCode } from 'hashcode'
-import { BackgroundColorProperty } from 'csstype'
+import { BackgroundProperty } from 'csstype'
 
 export function hash(o: string): number {
   return Math.abs(hashCode().value(o))
@@ -20,22 +20,26 @@ export const generateHexColorFromPalette = (
   return entityColors[absHashCode]
 }
 
-export const generateBackgroundColor = (
+export const generateBackground = (
   entityType: string,
   options: {
     opacity?: number
-    entityColors?: BackgroundColorProperty[]
-    entityColorPresets?: { [index: string]: string }
+    entityColors?: BackgroundProperty<string>[]
+    entityColorPresets?: { [index: string]: BackgroundProperty<string> }
   } = {}
 ) => {
-  const hexColor: string =
+  const background: BackgroundProperty<string> =
     (options.entityColorPresets || {})[entityType] ||
     generateHexColorFromPalette(
       hash(entityType) % (options.entityColors || defaultEntityColors).length
     )
-  return tinycolor2(
-    Object.assign(tinycolor2(hexColor).toRgb(), {
-      a: options.opacity == null ? 1 : options.opacity
-    })
-  ).toRgbString()
+  if (tinycolor2(background).isValid()) {
+    return tinycolor2(
+      Object.assign(tinycolor2(background).toRgb(), {
+        a: options.opacity == null ? 1 : options.opacity
+      })
+    ).toRgbString()
+  } else {
+    return background
+  }
 }

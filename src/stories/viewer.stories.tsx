@@ -109,7 +109,8 @@ storiesOf('AnnotationViewer', module)
     <Viewer
       {...props}
       entityColorPresets={{
-        PERSON: 'red'
+        PERSON: 'red',
+        ORG: 'linear-gradient(90deg, #AA9CFC, #FC9CE7)'
       }}
     />
   ))

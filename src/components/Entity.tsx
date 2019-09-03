@@ -1,10 +1,10 @@
 import * as React from 'react'
 import { EntityAnnotation } from '../types'
 import { makeStyles } from '@material-ui/core/styles'
-import { generateBackgroundColor } from '../util/colorGenerator'
+import { generateBackground } from '../util/colorGenerator'
 import tinycolor from 'tinycolor2'
 import Typography, { TypographyProps } from '@material-ui/core/Typography'
-import { BackgroundColorProperty } from 'csstype'
+import { BackgroundProperty } from 'csstype'
 import { Tooltip } from '@material-ui/core'
 
 interface EntityProps {
@@ -12,7 +12,7 @@ interface EntityProps {
   onClick?: () => void
   hideEntityType?: boolean
   typographyProps?: TypographyProps
-  entityColors?: BackgroundColorProperty[]
+  entityColors?: BackgroundProperty<string>[]
   entityColorPresets?: { [index: string]: string }
   renderEntityType?: (entityType: string) => React.ReactNode
 }
@@ -57,17 +57,17 @@ const Entity: React.FC<EntityProps> = ({
   renderEntityType = type => type
 }) => {
   const classes = useStyles()
-  const backgroundColor = generateBackgroundColor(annotation.entityType, {
+  const background = generateBackground(annotation.entityType, {
     entityColors,
     entityColorPresets
   })
-  const color = tinycolor(backgroundColor).isDark() ? '#fff' : '#000'
+  const color = tinycolor(background).isDark() ? '#fff' : '#000'
 
   return (
     <Tooltip title={annotation.entityType}>
       <span
         className={classes.root}
-        style={{ backgroundColor, border: getBorder(backgroundColor), color }}
+        style={{ background, border: getBorder(background), color }}
         onClick={onClick}
       >
         {children}

@@ -6,6 +6,7 @@ import { spanContainsSpan } from '../util/spans'
 import Relationship from './Relationship'
 import { makeStyles } from '@material-ui/core'
 import Typography, { TypographyProps } from '@material-ui/core/Typography'
+import { BackgroundProperty } from 'csstype'
 
 interface ViewerProps {
   text: string
@@ -13,7 +14,7 @@ interface ViewerProps {
   onAnnotationClick?: (annotation: AnnotationUnion) => void
   typographyProps?: TypographyProps
   hideEntityType?: boolean
-  entityColors?: string[]
+  entityColors?: BackgroundProperty<string>[]
   relationshipColor?: string
   entityColorPresets?: { [index: string]: string }
   renderEntityType?: (entityType: string) => React.ReactNode
