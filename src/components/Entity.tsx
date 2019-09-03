@@ -7,15 +7,14 @@ interface EntityProps {
   annotation: EntityAnnotation
   onClick?: () => void
 }
-
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(_theme => ({
   root: {
     display: 'inline-block',
     cursor: 'pointer',
     padding: '0.25em 0',
     lineHeight: 1,
     // dont break across multiple lines,
-    boxDecorationBreak: 'clone',
+    ['-webkit-box-decoration-break']: 'clone',
     transitionDuration: '0.3s',
     transitionTimingFunction: 'ease-out'
   }

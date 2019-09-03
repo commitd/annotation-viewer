@@ -24,7 +24,7 @@ export const colorPalette: string[] = [
   '#a9a9a9'
 ]
 
-export const presets = {
+export const presets: { [index: string]: string } = {
   PERSON: '#000075',
   PLACE: '#469990',
   GROUP: '#808000'

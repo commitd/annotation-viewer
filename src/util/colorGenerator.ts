@@ -1,4 +1,4 @@
-import * as tinycolor from 'tinycolor2'
+import tinycolor2 from 'tinycolor2'
 import { colorPalette, presets } from './colorPalette'
 // @ts-ignore
 import { hashCode } from 'hashcode'
@@ -23,7 +23,7 @@ export const generateBackgroundColor = (
   const hexColor: string =
     presets[entityType] ||
     generateHexColorFromPalette(hash(entityType) % colorPalette.length)
-  return tinycolor(
-    Object.assign(tinycolor(hexColor).toRgb(), { a: opacity })
+  return tinycolor2(
+    Object.assign(tinycolor2(hexColor).toRgb(), { a: opacity })
   ).toRgbString()
 }
