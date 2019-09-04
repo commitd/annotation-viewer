@@ -17,7 +17,7 @@ yarn add @committed/annotation-viewer
 ```tsx
 import * as React from 'react'
 
-import MyComponent from '@committed/annotation-viewer'
+import Viewer from '@committed/annotation-viewer'
 
 class Example extends React.Component {
   render () {
@@ -48,6 +48,20 @@ class Example extends React.Component {
   }
 }
 ```
+
+### Viewer Component
+
+| Prop | Type | Description |
+| --- | --- | --- |
+| text | `string` | A text string. |
+| annotations | `AnnotationUnion[]` | A list of entity / relationship annotations to render over the text. Annotations consist of offsets in `text`. |
+| onAnnotationClick | `(annotation: AnnotationUnion) => void` | Optional. Triggered when an annotation is clicked on. |
+| typographyProps | `TypographyProps` | Optional. Customises the styling of the text. Applied to all text regardless of annotations. See https://material-ui.com/api/typography/ for a full list of options. |
+| hideEntityType | `boolean` | Optional. Don't show inline entity type information. |
+| entityColors | `BackgroundProperty<string>[]` |  Optional. List of possible entity annotation. background colours. Accepts any css background value e.g. hex colour, gradient, etc. |
+| entityColorPresets | `{ [index: string]: string }` | Optional. An object mapping an entity type to a particular background colour. Will otherwise choose a colour from `entityColours` automatically. |
+| relationshipColor | `string` | Optional. Colour of relationship annotations. |
+| renderEntityType | `(entityType: string) => React.ReactNode` | Optional. Customises how inline entity types are rendered. |
 
 ## Development
 
