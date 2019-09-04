@@ -2,6 +2,7 @@
 
 > Annotation Viewer
 
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ![](images/example.png)
 
@@ -63,3 +64,19 @@ and to create a production version
 ```bash
 yarn build-storybook
 ```
+
+## Example
+
+To run the example:
+
+```
+yarn
+yarn build
+cd example
+yarn
+yarn start
+```
+
+## License
+
+© [Committed Software](https://github.com/commitd)
