@@ -47,3 +47,19 @@ class Example extends React.Component {
   }
 }
 ```
+
+## Development
+
+The main build is currently performed using Rollup and `yarn build`.
+
+We use storybook to develop and document the components, this is run in development using
+
+```bash
+yarn storybook
+```
+
+and to create a production version
+
+```bash
+yarn build-storybook
+```
