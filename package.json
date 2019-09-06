@@ -3,20 +3,23 @@
   "version": "0.0.1",
   "description": "Annotation Viewer",
   "license": "UNLICENSED",
-  "repository": "commitd/@committed/annotation-viewer",
+  "repository": "git://github.com/commitd/annotation-viewer",
   "main": "dist/index.js",
   "module": "dist/annotator-viewer2.esm.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
     "test": "tsdx test --env=jsdom",
     "lint": "tsdx lint",
     "storybook": "start-storybook -p 9001 -c .storybook",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
     "format": "prettier --write '{**/*.js,*.ts,*.tsx,*.json,*.md,*.mdx}'",
     "format-check": "prettier --check '{**/*.js,*.ts,*.tsx,*.json,*.md,*.mdx}'"
   },
@@ -45,6 +48,7 @@
     "@storybook/addon-actions": "^5.1.11",
     "@storybook/addon-info": "^5.1.11",
     "@storybook/react": "^5.1.11",
+    "@storybook/storybook-deployer": "^2.8.1",
     "@types/jest": "^24.0.18",
     "@types/react": "^16.9.2",
     "@types/react-dom": "^16.9.0",
