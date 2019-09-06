@@ -17,6 +17,8 @@
     "lint": "tsdx lint",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "build-storybook": "build-storybook"
+    "format": "prettier --write '{**/*.js,*.ts,*.tsx,*.json,*.md,*.mdx}'",
+    "format-check": "prettier --check '{**/*.js,*.ts,*.tsx,*.json,*.md,*.mdx}'"
   },
   "dependencies": {
     "@types/randomcolor": "^0.5.3",
@@ -34,7 +36,6 @@
     }
   },
   "prettier": {
-    "parser": "typescript",
     "semi": false,
     "singleQuote": true
   },
