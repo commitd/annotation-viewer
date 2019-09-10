@@ -1,19 +1,16 @@
 import * as React from 'react'
 import { RenderFunction } from '@storybook/react'
-import { CssBaseline, Container } from '@material-ui/core'
+import { Container } from '@material-ui/core'
+import { ThemeProvider } from '@commitd/components'
 
 export const baselined = (story: RenderFunction) => (
-  <>
-    <CssBaseline />
-    {story()}
-  </>
+  <ThemeProvider>{story()}</ThemeProvider>
 )
 
 export const contained = (story: RenderFunction) => (
-  <>
-    <CssBaseline />
+  <ThemeProvider>
     <Container style={{ marginTop: 24 }} maxWidth="lg">
       {story()}
     </Container>
-  </>
+  </ThemeProvider>
 )

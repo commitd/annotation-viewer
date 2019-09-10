@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { makeStyles } from '@material-ui/core'
-import { indigo } from '@material-ui/core/colors'
+import { colors } from '@commitd/components'
 
-interface RelationshipProps {
-  relationshipColor?: string
+interface InlineProps {
+  inlineColor?: string
 }
 
 const useStyles = makeStyles(_theme => ({
@@ -13,12 +13,9 @@ const useStyles = makeStyles(_theme => ({
   }
 }))
 
-const Relationship: React.FC<RelationshipProps> = ({
-  children,
-  relationshipColor
-}) => {
+const Inline: React.FC<InlineProps> = ({ children, inlineColor }) => {
   const classes = useStyles()
-  let borderBottom = `3px dashed ${relationshipColor || indigo[700]}`
+  let borderBottom = `3px dashed ${inlineColor || colors.indigo[700]}`
 
   return (
     <div className={classes.root} style={{ borderBottom }}>
@@ -27,4 +24,4 @@ const Relationship: React.FC<RelationshipProps> = ({
   )
 }
 
-export default Relationship
+export default Inline

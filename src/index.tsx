@@ -1,5 +1,5 @@
-import Entity from './components/Entity'
+import Mark from './components/Mark'
 import Viewer from './components/Viewer'
 
-export { Entity, Viewer }
+export { Mark, Viewer }
 export default Viewer

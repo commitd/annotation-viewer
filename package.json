@@ -24,13 +24,15 @@
     "format-check": "prettier --check '{**/*.js,*.ts,*.tsx,*.json,*.md,*.mdx}'"
   },
   "dependencies": {
+    "@commitd/components": "^0.0.3",
     "@types/randomcolor": "^0.5.3",
     "@types/tinycolor2": "^1.4.2",
+    "clsx": "^1.0.4",
+    "google-palette": "^1.1.0",
     "hashcode": "^1.0.3",
     "tinycolor2": "^1.4.1"
   },
   "peerDependencies": {
-    "@material-ui/core": "^4.4.0",
     "react": ">=16"
   },
   "husky": {
@@ -43,7 +45,6 @@
     "singleQuote": true
   },
   "devDependencies": {
-    "@material-ui/core": "^4.4.0",
     "@material-ui/icons": "^4.2.1",
     "@storybook/addon-actions": "^5.1.11",
     "@storybook/addon-info": "^5.1.11",

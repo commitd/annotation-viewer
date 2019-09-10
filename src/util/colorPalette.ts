@@ -1,25 +1,15 @@
-// From https://sashat.me/2017/01/11/list-of-20-simple-distinct-colors/
-// Black and White have been removed
+// @ts-ignore
+import palette from 'google-palette'
 
-export const defaultEntityColors: string[] = [
-  '#e6194B',
-  '#3cb44b',
-  '#ffe119',
-  '#4363d8',
-  '#f58231',
-  '#911eb4',
-  '#42d4f4',
-  '#f032e6',
-  '#bfef45',
-  '#fabebe',
-  '#469990',
-  '#e6beff',
-  '#9A6324',
-  '#fffac8',
-  '#800000',
-  '#aaffc3',
-  '#808000',
-  '#ffd8b1',
-  '#000075',
-  '#a9a9a9'
-]
+export const defaultMarkColors: string[] = palette('cb-Pastel1', 8)
+
+// http://google.github.io/palette.js/ ColorBrewer qualitative palettes
+
+export const cbAccent: string[] = palette('cb-Accent', 8)
+export const cbDark2: string[] = palette('cb-Dark2', 8)
+export const cbPaired: string[] = palette('cb-Paired', 8)
+export const cbPastel1: string[] = palette('cb-Pastel1', 8)
+export const cbPastel2: string[] = palette('cb-Pastel2', 8)
+export const cbSet1: string[] = palette('cb-Set1', 8)
+export const cbSet2: string[] = palette('cb-Set2', 8)
+export const cbSet3: string[] = palette('cb-Set3', 8)

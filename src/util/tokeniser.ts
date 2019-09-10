@@ -1,21 +1,21 @@
-import { Span, AnnotationUnion } from '../types'
+import { Span } from '../types'
 import { isIntersecting, getEnd } from './spans'
 
 interface Event {
   index: number
 }
 
-export interface Token extends Span {
-  annotations: AnnotationUnion[]
+export interface Token<A extends Span> extends Span {
+  annotations: A[]
   text: string
 }
 
 const byIndexAscending = (a: Event, b: Event) => a.index - b.index
 
-export const tokenise = (
+export const tokenise = <A extends Span>(
   text: string,
-  annotations: AnnotationUnion[]
-): Token[] => {
+  annotations: A[]
+): Token<A>[] => {
   const events = annotations
     .flatMap(a => [{ index: a.offset, annotations }, { index: getEnd(a) }])
     .sort(byIndexAscending)

@@ -8,23 +8,23 @@ const App = () => {
     <div>
       <Viewer
         text="The British people are represented by members of Parliament"
-        annotations={[
+        marks={[
           {
             offset: 4,
             length: 7,
-            entityType: 'NORP',
-            annotationType: 'entity'
+            markType: 'NORP'
           },
-          {
-            offset: 4,
-            length: 55,
-            annotationType: 'relationship-span'
-          },
+
           {
             offset: 49,
             length: 10,
-            entityType: 'ORG',
-            annotationType: 'entity'
+            markType: 'ORG'
+          }
+        ]}
+        inlines={[
+          {
+            offset: 4,
+            length: 55
           }
         ]}
       />

@@ -3,21 +3,10 @@ export interface Span {
   length: number
 }
 
-export interface TypedSpan extends Span {
-  annotationType: string
+export interface MarkAnnotation extends Span {
+  markType: string
 }
 
-export interface Annotation extends TypedSpan {
-  label?: string
-}
+export interface InlineAnnotation extends Span {}
 
-export interface EntityAnnotation extends Annotation {
-  annotationType: 'entity'
-  entityType: string
-}
-
-export interface RelationshipSpanAnnotation extends Annotation {
-  annotationType: 'relationship-span'
-}
-
-export type AnnotationUnion = EntityAnnotation | RelationshipSpanAnnotation
+export type Annotation = MarkAnnotation | InlineAnnotation

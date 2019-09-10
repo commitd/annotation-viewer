@@ -1,5 +1,5 @@
 import tinycolor2 from 'tinycolor2'
-import { defaultEntityColors } from './colorPalette'
+import { defaultMarkColors } from './colorPalette'
 // @ts-ignore
 import { hashCode } from 'hashcode'
 import { BackgroundProperty } from 'csstype'
@@ -10,29 +10,29 @@ export function hash(o: string): number {
 
 export const generateHexColorFromPalette = (
   index: number,
-  entityColors = defaultEntityColors
+  markColors = defaultMarkColors
 ): string => {
   const absHashCode = Math.abs(index)
-  if (entityColors.length - 1 < absHashCode) {
-    const maxValue = (entityColors.length - 1).toString()
+  if (markColors.length - 1 < absHashCode) {
+    const maxValue = (markColors.length - 1).toString()
     throw new Error('Hash code invalid, must be less than' + maxValue)
   }
-  return entityColors[absHashCode]
+  return markColors[absHashCode]
 }
 
-export const generateBackground = (
-  entityType: string,
+export const getTypeColor = (
+  markType: string,
   options: {
     opacity?: number
-    entityColors?: BackgroundProperty<string>[]
-    entityColorPresets?: { [index: string]: BackgroundProperty<string> }
+    markColors?: BackgroundProperty<string>[]
+    markColorPresets?: { [index: string]: BackgroundProperty<string> }
   } = {}
 ) => {
+  const colors =
+    options.markColors == null ? defaultMarkColors : options.markColors
   const background: BackgroundProperty<string> =
-    (options.entityColorPresets || {})[entityType] ||
-    generateHexColorFromPalette(
-      hash(entityType) % (options.entityColors || defaultEntityColors).length
-    )
+    (options.markColorPresets || {})[markType] ||
+    generateHexColorFromPalette(hash(markType) % colors.length, colors)
   if (tinycolor2(background).isValid()) {
     return tinycolor2(
       Object.assign(tinycolor2(background).toRgb(), {
@@ -42,4 +42,21 @@ export const generateBackground = (
   } else {
     return background
   }
+}
+
+export const getTypeColors = (
+  markTypes: string[],
+  options: {
+    opacity?: number
+    markColors?: BackgroundProperty<string>[]
+    markColorPresets?: { [index: string]: BackgroundProperty<string> }
+  } = {}
+): { [index: string]: BackgroundProperty<string> } => {
+  return markTypes.reduce(
+    (result: { [index: string]: BackgroundProperty<string> }, type: string) => {
+      result[type] = getTypeColor(type, options)
+      return result
+    },
+    {}
+  )
 }
