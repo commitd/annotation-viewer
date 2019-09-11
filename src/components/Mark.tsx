@@ -1,44 +1,43 @@
 import * as React from 'react'
 import { MarkAnnotation } from '../types'
 import { makeStyles } from '@material-ui/core/styles'
-import { Typography } from '@commitd/components'
 import { BackgroundProperty } from 'csstype'
 import { Tooltip } from '@material-ui/core'
 import clsx from 'clsx'
-import { getTypeColors } from '../util/colorGenerator'
+import { getTypeColors, getMarkTypeColor } from '../util/colorGenerator'
+import tinycolor from 'tinycolor2'
+import { defaultMarkColors } from '../util/colorPalette'
 
 interface MarkProps {
   marks: MarkAnnotation[]
   onClick?: () => void
   className?: string
   hideMarkType?: boolean
-  typographyProps?: React.ComponentProps<typeof Typography>
   markTypeColors?: { [index: string]: BackgroundProperty<string> }
   renderMarkType?: (markType: string) => React.ReactNode
   fade?: boolean
+  hideLeftBorder?: boolean
+  hideRightBorder?: boolean
+  getTooltipText?: ((marks: MarkAnnotation[]) => string) | null
 }
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'inline-block',
     cursor: 'pointer',
-    padding: '0.25em 0',
-    lineHeight: 1,
+    lineHeight: 1.75,
     // dont break across multiple lines,
     ['-webkit-box-decoration-break']: 'clone',
+    transitionProperty: 'background, background-color, padding',
     transitionDuration: '0.3s',
-    transitionTimingFunction: 'ease-out',
-    // textStroke: '1px black',
-    webkitFontSmoothing: 'antialiased',
-    fontSize: 24
+    transitionTimingFunction: 'ease-out'
   },
   type: {
-    padding: '0.3em',
-    margin: '0 .25em',
+    padding: theme.spacing(0.5),
+    marginLeft: theme.spacing(1),
     fontSize: '0.5em',
-    lineHeight: 1,
     display: 'inline-block',
     verticalAlign: 'middle',
-    opacity: 0.9,
+    opacity: 0.8,
     borderRadius: theme.shape.borderRadius,
     background: 'white',
     color: theme.palette.text.primary,
@@ -46,11 +45,21 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-// const getBorder = (backgroundColor: string) =>
-//   '2px solid ' +
-//   tinycolor(backgroundColor)
-//     .darken(10)
-//     .toRgbString()
+const getBorderStyles = (
+  borderColor: string,
+  hideLeftBorder?: boolean,
+  hideRightBorder?: boolean
+): React.CSSProperties => {
+  const border = `2px solid ${borderColor}`
+  return {
+    borderTop: border,
+    borderRight: hideRightBorder ? undefined : border,
+    borderBottom: border,
+    borderLeft: hideLeftBorder ? undefined : border,
+    paddingLeft: hideLeftBorder ? undefined : '8px',
+    paddingRight: hideRightBorder ? undefined : '8px'
+  }
+}
 
 const getBackground = (
   marks: MarkAnnotation[],
@@ -61,7 +70,8 @@ const getBackground = (
   } = {}
 ) => {
   const markTypeColorsDefined =
-    options.markTypeColors || getTypeColors(marks.map(m => m.markType))
+    options.markTypeColors ||
+    getTypeColors(marks.map(m => m.markType), defaultMarkColors)
   let ongoing = 0
   const stripeLength = 5
   const bg =
@@ -85,15 +95,17 @@ const Mark: React.FC<MarkProps> = ({
   marks,
   onClick,
   hideMarkType,
-  typographyProps,
   markTypeColors,
   fade,
-  renderMarkType = type => type
+  hideLeftBorder,
+  hideRightBorder,
+  renderMarkType = type => type,
+  getTooltipText = marks => marks.map(m => m.markType).join(', ')
 }) => {
   const classes = useStyles()
 
   if (marks.length === 0) {
-    return <>{children}</>
+    return <span>{children}</span>
   }
   const markType = marks.map(m => m.markType).join(', ')
   // const markType = marks.length > 1 ? `#${marks.length}` : marks[0].markType
@@ -101,21 +113,37 @@ const Mark: React.FC<MarkProps> = ({
   const background = getBackground(marks, markType, { markTypeColors, fade })
   // const color = tinycolor(background).isDark() ? '#fff' : '#000'
 
-  return (
-    <Tooltip title={markType}>
-      <span
-        className={clsx(classes.root, className)}
-        style={{ background /*border: getBorder(background), color*/ }}
-        onClick={onClick}
-      >
-        {children}
-        {!hideMarkType && (
-          <Typography className={classes.type} {...typographyProps}>
-            {renderMarkType(markType)}
-          </Typography>
-        )}
-      </span>
-    </Tooltip>
+  const borderColor = tinycolor(
+    getMarkTypeColor(marks[0].markType, {
+      colorPresets: markTypeColors,
+      opacity: 1
+    })
+  )
+    .darken(10)
+    .toRgbString()
+
+  const content = (
+    <span
+      className={clsx(classes.root, className)}
+      style={Object.assign(
+        {
+          background
+        },
+        getBorderStyles(borderColor, hideLeftBorder, hideRightBorder)
+      )}
+      onClick={onClick}
+    >
+      {children}
+      {!hideMarkType && (
+        <span className={classes.type}>{renderMarkType(markType)}</span>
+      )}
+    </span>
+  )
+
+  return getTooltipText == null ? (
+    content
+  ) : (
+    <Tooltip title={getTooltipText(marks)}>{content}</Tooltip>
   )
 }
 

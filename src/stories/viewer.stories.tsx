@@ -5,7 +5,6 @@ import { action } from '@storybook/addon-actions'
 import { MarkAnnotation, InlineAnnotation } from '../types'
 import Viewer from '../components/Viewer'
 import { contained } from './decorators'
-import randomColor from 'randomcolor'
 import PersonIcon from '@material-ui/icons/Person'
 import OrgIcon from '@material-ui/icons/LocationCity'
 import EventIcon from '@material-ui/icons/EventNote'
@@ -51,11 +50,13 @@ const marks: MarkAnnotation[] = [
 const inlines: InlineAnnotation[] = [
   {
     offset: 4,
-    length: 55
+    length: 55,
+    inlineType: 'LINK'
   },
   {
     offset: 122,
-    length: 37
+    length: 37,
+    inlineType: 'LINK'
   }
 ]
 
@@ -80,10 +81,10 @@ const overlappingMarks = [
     length: 2,
     markType: 'COUNTRY'
   },
-  // UK capital, London
+  // UK capital
   {
     offset: 45,
-    length: 18,
+    length: 10,
     markType: 'PLACE'
   }
 ]
@@ -99,17 +100,14 @@ const overlappingInlines = [
   //UK prime minister Boris Johnson
   {
     offset: 0,
-    length: 31
+    length: 31,
+    inlineType: 'worksAs'
   },
   // Boris Johnson lives in the UK capital, London
   {
     offset: 18,
-    length: 45
-  },
-  // UK capital, London
-  {
-    offset: 45,
-    length: 18
+    length: 45,
+    inlineType: 'livesIn'
   }
 ]
 
@@ -135,36 +133,43 @@ storiesOf('AnnotationViewer', module)
       inlines={[
         {
           offset: 4,
-          length: 55
+          length: 55,
+          inlineType: 'LINK'
         }
       ]}
     />
   ))
-  .add('full example', () => <Viewer {...defaultProps} />)
+  .add('inline test', () => (
+    <Viewer
+      hideLegend={true}
+      text="The"
+      marks={[]}
+      inlines={[
+        {
+          offset: 0,
+          length: 3,
+          inlineType: 'LINK'
+        }
+      ]}
+    />
+  ))
+  .add('full example', () => <Viewer {...defaultProps} hideMarkType={true} />)
   .add('mark type hidden', () => (
     <Viewer {...defaultProps} hideMarkType={true} />
   ))
   .add('custom colours', () => (
-    <Viewer
-      {...defaultProps}
-      markColors={['red', 'blue']}
-      inlineColor={randomColor({ luminosity: 'dark' })}
-    />
+    <Viewer {...defaultProps} markColors={['red', 'blue']} />
   ))
   .add('dark colours', () => (
-    <Viewer
-      {...defaultProps}
-      markColors={cbDark2}
-      inlineColor={randomColor({ luminosity: 'dark' })}
-      fadeMarks={true}
-    />
+    <Viewer {...defaultProps} markColors={cbDark2} fadeMarks={true} />
   ))
   .add('custom colour preset', () => (
     <Viewer
       {...defaultProps}
-      markColorPresets={{
+      colorPresets={{
         PERSON: 'red',
-        ORG: 'linear-gradient(90deg, #AA9CFC, #FC9CE7)'
+        ORG: 'linear-gradient(90deg, #AA9CFC, #FC9CE7)',
+        LINK: 'pink'
       }}
     />
   ))
@@ -174,6 +179,7 @@ storiesOf('AnnotationViewer', module)
   .add('custom mark icons', () => (
     <Viewer
       {...defaultProps}
+      typographyProps={{ variant: 'h5' }}
       renderMarkType={type => {
         switch (type) {
           case 'PERSON':
@@ -232,7 +238,7 @@ storiesOf('AnnotationViewer', module)
           markType: 'type5'
         }
       ]}
-      markColorPresets={{
+      colorPresets={{
         type1: palette('cb-Set1', 5)[0],
         type2: palette('cb-Set1', 5)[1],
         type3: palette('cb-Set1', 5)[2],

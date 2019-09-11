@@ -1,5 +1,5 @@
 import tinycolor2 from 'tinycolor2'
-import { defaultMarkColors } from './colorPalette'
+import { defaultMarkColors, defaultInlineColors } from './colorPalette'
 // @ts-ignore
 import { hashCode } from 'hashcode'
 import { BackgroundProperty } from 'csstype'
@@ -10,28 +10,26 @@ export function hash(o: string): number {
 
 export const generateHexColorFromPalette = (
   index: number,
-  markColors = defaultMarkColors
+  colors: BackgroundProperty<string>[]
 ): string => {
   const absHashCode = Math.abs(index)
-  if (markColors.length - 1 < absHashCode) {
-    const maxValue = (markColors.length - 1).toString()
+  if (colors.length - 1 < absHashCode) {
+    const maxValue = (colors.length - 1).toString()
     throw new Error('Hash code invalid, must be less than' + maxValue)
   }
-  return markColors[absHashCode]
+  return colors[absHashCode]
 }
 
-export const getTypeColor = (
+const getTypeColor = (
   markType: string,
+  colors: BackgroundProperty<string>[],
   options: {
     opacity?: number
-    markColors?: BackgroundProperty<string>[]
-    markColorPresets?: { [index: string]: BackgroundProperty<string> }
+    colorPresets?: { [index: string]: BackgroundProperty<string> }
   } = {}
 ) => {
-  const colors =
-    options.markColors == null ? defaultMarkColors : options.markColors
   const background: BackgroundProperty<string> =
-    (options.markColorPresets || {})[markType] ||
+    (options.colorPresets || {})[markType] ||
     generateHexColorFromPalette(hash(markType) % colors.length, colors)
   if (tinycolor2(background).isValid()) {
     return tinycolor2(
@@ -44,17 +42,43 @@ export const getTypeColor = (
   }
 }
 
+export const getMarkTypeColor = (
+  markType: string,
+  options: {
+    colors?: BackgroundProperty<string>[]
+    opacity?: number
+    colorPresets?: { [index: string]: BackgroundProperty<string> }
+  } = {}
+) =>
+  getTypeColor(markType, options.colors || defaultMarkColors, {
+    opacity: options.opacity,
+    colorPresets: options.colorPresets
+  })
+
+export const getInlineTypeColor = (
+  inlineType: string,
+  options: {
+    colors?: BackgroundProperty<string>[]
+    opacity?: number
+    colorPresets?: { [index: string]: BackgroundProperty<string> }
+  } = {}
+) =>
+  getTypeColor(inlineType, options.colors || defaultInlineColors, {
+    opacity: options.opacity,
+    colorPresets: options.colorPresets
+  })
+
 export const getTypeColors = (
   markTypes: string[],
+  colors: BackgroundProperty<string>[],
   options: {
     opacity?: number
-    markColors?: BackgroundProperty<string>[]
-    markColorPresets?: { [index: string]: BackgroundProperty<string> }
+    colorPresets?: { [index: string]: BackgroundProperty<string> }
   } = {}
 ): { [index: string]: BackgroundProperty<string> } => {
   return markTypes.reduce(
     (result: { [index: string]: BackgroundProperty<string> }, type: string) => {
-      result[type] = getTypeColor(type, options)
+      result[type] = getTypeColor(type, colors, options)
       return result
     },
     {}

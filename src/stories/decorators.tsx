@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { RenderFunction } from '@storybook/react'
-import { Container } from '@material-ui/core'
+import { Container } from '@commitd/components'
 import { ThemeProvider } from '@commitd/components'
 
 export const baselined = (story: RenderFunction) => (

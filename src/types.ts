@@ -7,6 +7,8 @@ export interface MarkAnnotation extends Span {
   markType: string
 }
 
-export interface InlineAnnotation extends Span {}
+export interface InlineAnnotation extends Span {
+  inlineType: string
+}
 
 export type Annotation = MarkAnnotation | InlineAnnotation
