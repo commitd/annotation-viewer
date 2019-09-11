@@ -1,5 +1,6 @@
-import { configure, addDecorator } from '@storybook/react'
+import { configure, addDecorator, addParameters } from '@storybook/react'
 import { withInfo } from '@storybook/addon-info'
+import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks'
 
 // automatically import all files ending in *.stories.tsx
 const req = require.context('../src/stories', true, /.stories.tsx$/)
@@ -10,3 +11,8 @@ function loadStories() {
 }
 
 configure(loadStories, module)
+
+addParameters({
+  docsContainer: DocsContainer,
+  docs: DocsPage
+})
