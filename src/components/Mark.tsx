@@ -29,7 +29,8 @@ const useStyles = makeStyles(theme => ({
     ['-webkit-box-decoration-break']: 'clone',
     transitionProperty: 'background, background-color, padding',
     transitionDuration: '0.3s',
-    transitionTimingFunction: 'ease-out'
+    transitionTimingFunction: 'ease-out',
+    borderRadius: theme.shape.borderRadius
   },
   type: {
     padding: theme.spacing(0.5),
@@ -51,13 +52,20 @@ const getBorderStyles = (
   hideRightBorder?: boolean
 ): React.CSSProperties => {
   const border = `2px solid ${borderColor}`
+  const borderRadiusRight = hideRightBorder ? '0px' : undefined
+  const borderRadiusLeft = hideLeftBorder ? '0px' : undefined
   return {
     borderTop: border,
     borderRight: hideRightBorder ? undefined : border,
     borderBottom: border,
     borderLeft: hideLeftBorder ? undefined : border,
     paddingLeft: hideLeftBorder ? undefined : '8px',
-    paddingRight: hideRightBorder ? undefined : '8px'
+    paddingRight: hideRightBorder ? undefined : '8px',
+    borderRadius: `${borderRadiusLeft} ${borderRadiusRight} ${borderRadiusRight} ${borderRadiusLeft}`,
+    borderTopLeftRadius: borderRadiusLeft,
+    borderTopRightRadius: borderRadiusRight,
+    borderBottomLeftRadius: borderRadiusLeft,
+    borderBottomRightRadius: borderRadiusRight
   }
 }
 
