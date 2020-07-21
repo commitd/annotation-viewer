@@ -1,4 +1,4 @@
-import { makeStyles, Typography } from '@committed/components'
+import { makeStyles, Span } from '@committed/components'
 import { BackgroundProperty } from 'csstype'
 import React from 'react'
 import { Annotation } from '../types'
@@ -22,8 +22,8 @@ export interface AnnotationViewProps {
   }) => void
   /** Optional. Colors of the types. An object mapping an mark/inline type to a particular background colour. */
   typeColors?: { [index: string]: BackgroundProperty<string> }
-  /** Optional. Customises the styling of the text. Applied to all text regardless of annotations. See https://material-ui.com/api/typography/ for a full list of options. */
-  typographyProps?: React.ComponentProps<typeof Typography>
+  /** Optional. Customises the styling of the text. Applied to all text regardless of annotations. See https://material-ui.com/api/Span/ for a full list of options. */
+  typographyProps?: React.ComponentProps<typeof Span>
   /** Addition props provided to configure the marks */
   markProps?: AnnotationMarkConfig
   /** Addition props provided to the marks */
@@ -59,7 +59,7 @@ export const AnnotationView: React.FC<AnnotationViewProps> = ({
 
   return (
     <div>
-      <Typography {...typographyProps} className={classes.text}>
+      <Span {...typographyProps} className={classes.text}>
         {inlineSpanTokens.map(rt => {
           const markTokens = tokenise(
             rt.text,
@@ -133,7 +133,7 @@ export const AnnotationView: React.FC<AnnotationViewProps> = ({
             </AnnotationInline>
           )
         })}
-      </Typography>
+      </Span>
     </div>
   )
 }
