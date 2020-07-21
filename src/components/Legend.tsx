@@ -1,88 +1,48 @@
-import * as React from 'react'
-import { BackgroundProperty } from 'csstype'
-import { makeStyles, Grid } from '@material-ui/core'
-import {
-  Checkbox,
-  Typography,
-  FormControlLabel,
-  FormGroup
-} from '@commitd/components'
-import Mark from './Mark'
+import { Box, Flex, Typography } from '@committed/components'
+import { BackgroundProperty, FlexDirectionProperty } from 'csstype'
+import React from 'react'
+import { Mark } from './Mark'
 
-interface LegendProps {
-  markTypeColors: { [index: string]: BackgroundProperty<string> }
-  inlineTypeColors: { [index: string]: BackgroundProperty<string> }
+export interface LegendProps {
+  typeColors: { [index: string]: BackgroundProperty<string> }
   selectedTypes: string[]
-  onSelectionChange: (types: string[]) => void
+  toggleType: (type: string) => void
   fadeMarks?: boolean
+  layout?: FlexDirectionProperty
+  /** Optional. Customises the styling of the text. Applied to all text regardless of annotations. See https://material-ui.com/api/typography/ for a full list of options. */
+  typographyProps?: React.ComponentProps<typeof Typography>
 }
-const useStyles = makeStyles(theme => ({
-  item: { userSelect: 'none' },
-  container: {},
-  text: {
-    paddingTop: 9,
-    paddingBottom: 9,
-    fontSize: 24,
-    paddingRight: theme.spacing(2)
-  }
-}))
 
-const Legend: React.FC<LegendProps> = ({
-  markTypeColors,
-  inlineTypeColors,
+export const Legend: React.FC<LegendProps> = ({
+  typeColors,
   selectedTypes,
-  onSelectionChange,
-  fadeMarks
+  toggleType,
+  fadeMarks,
+  typographyProps,
+  layout = 'row'
 }) => {
-  const classes = useStyles()
-  const typeColors = Object.assign({}, markTypeColors, inlineTypeColors)
   return (
-    <>
-      <Grid container className={classes.container} spacing={1}>
-        <Grid item xs={12}>
-          <Typography variant="caption">Legend</Typography>
-        </Grid>
+    <Typography {...typographyProps}>
+      <Flex flexDirection={layout} flexWrap="wrap">
         {Object.keys(typeColors).map(t => {
-          const onClick = () =>
-            selectedTypes.includes(t)
-              ? onSelectionChange(selectedTypes.filter(type => type !== t))
-              : onSelectionChange(selectedTypes.concat([t]))
+          const onClick = () => toggleType(t)
           return (
-            <Grid key={t} item className={classes.item} onClick={onClick}>
+            <Box key={t} m={1} onClick={onClick}>
               <Mark
                 marks={[{ length: t.length, offset: 0, markType: t }]}
-                hideMarkType={true}
-                markTypeColors={typeColors}
+                hideType={true}
+                typeColors={typeColors}
                 fade={fadeMarks}
                 getTooltipText={null}
                 onClick={onClick}
+                included={selectedTypes.includes(t)}
               >
-                <FormGroup onClick={onClick}>
-                  <FormControlLabel
-                    onClick={onClick}
-                    control={
-                      <Checkbox
-                        checked={selectedTypes && selectedTypes.includes(t)}
-                        onClick={onClick}
-                      />
-                    }
-                    label={
-                      <span
-                        style={{ position: 'relative', zIndex: 3 }}
-                        onClick={onClick}
-                      >
-                        {t}
-                      </span>
-                    }
-                  />
-                </FormGroup>
+                {t}
               </Mark>
-            </Grid>
+            </Box>
           )
         })}
-      </Grid>
-    </>
+      </Flex>
+    </Typography>
   )
 }
-
-export default Legend

@@ -1,8 +1,9 @@
-import tinycolor2 from 'tinycolor2'
-import { defaultMarkColors, defaultInlineColors } from './colorPalette'
+import { BackgroundProperty } from 'csstype'
 // @ts-ignore
 import { hashCode } from 'hashcode'
-import { BackgroundProperty } from 'csstype'
+import tinycolor2 from 'tinycolor2'
+import { InlineAnnotation, MarkAnnotation } from '../types'
+import { defaultInlineColors, defaultMarkColors } from './colorPalette'
 
 export function hash(o: string): number {
   return Math.abs(hashCode().value(o))
@@ -27,7 +28,7 @@ const getTypeColor = (
     opacity?: number
     colorPresets?: { [index: string]: BackgroundProperty<string> }
   } = {}
-) => {
+): BackgroundProperty<string> => {
   const background: BackgroundProperty<string> =
     (options.colorPresets || {})[markType] ||
     generateHexColorFromPalette(hash(markType) % colors.length, colors)
@@ -41,32 +42,6 @@ const getTypeColor = (
     return background
   }
 }
-
-export const getMarkTypeColor = (
-  markType: string,
-  options: {
-    colors?: BackgroundProperty<string>[]
-    opacity?: number
-    colorPresets?: { [index: string]: BackgroundProperty<string> }
-  } = {}
-) =>
-  getTypeColor(markType, options.colors || defaultMarkColors, {
-    opacity: options.opacity,
-    colorPresets: options.colorPresets
-  })
-
-export const getInlineTypeColor = (
-  inlineType: string,
-  options: {
-    colors?: BackgroundProperty<string>[]
-    opacity?: number
-    colorPresets?: { [index: string]: BackgroundProperty<string> }
-  } = {}
-) =>
-  getTypeColor(inlineType, options.colors || defaultInlineColors, {
-    opacity: options.opacity,
-    colorPresets: options.colorPresets
-  })
 
 export const getTypeColors = (
   markTypes: string[],
@@ -82,5 +57,52 @@ export const getTypeColors = (
       return result
     },
     {}
+  )
+}
+
+export function createTypeColors(
+  /** A list of mark annotation types. */
+  markTypes: string[],
+  /** A list of inline annotation types. */
+  inlineTypes: string[],
+  /**  Optional. List of possible mark annotation. background colours. Accepts any css background value e.g. hex colour, gradient, etc. */
+  markColors: BackgroundProperty<string>[] = defaultMarkColors,
+  /**  Optional. List of possible mark annotation. background colours. Accepts any css background value e.g. hex colour, gradient, etc. */
+  inlineColors: BackgroundProperty<string>[] = defaultInlineColors,
+  /** Optional. An object mapping an mark/inline type to a particular background colour. Will otherwise choose a colour from `markColours` automatically. */
+  colorPresets?: { [index: string]: string }
+): { [key: string]: BackgroundProperty<string> } {
+  const markTypeColors = getTypeColors(markTypes, markColors, {
+    colorPresets,
+    opacity: 0.7
+  })
+  const inlineTypeColors = getTypeColors(inlineTypes, inlineColors, {
+    colorPresets
+  })
+
+  return Object.assign({}, markTypeColors, inlineTypeColors)
+}
+
+export function createAnnotationColors(
+  /** A list of mark  annotations to render over the text. Annotations consist of offsets in `text`. */
+  marks: MarkAnnotation[],
+  /** A list of inline annotations to render over the text. Annotations consist of offsets in `text`. */
+  inlines: InlineAnnotation[],
+  /**  Optional. List of possible mark annotation. background colours. Accepts any css background value e.g. hex colour, gradient, etc. */
+  markColors: BackgroundProperty<string>[] = defaultMarkColors,
+  /**  Optional. List of possible mark annotation. background colours. Accepts any css background value e.g. hex colour, gradient, etc. */
+  inlineColors: BackgroundProperty<string>[] = defaultInlineColors,
+  /** Optional. An object mapping an mark/inline type to a particular background colour. Will otherwise choose a colour from `markColours` automatically. */
+  colorPresets?: { [index: string]: string }
+): { [key: string]: BackgroundProperty<string> } {
+  const markTypes = Array.from(new Set(marks.map(m => m.markType)))
+  const inlineTypes = Array.from(new Set(inlines.map(i => i.inlineType)))
+
+  return createTypeColors(
+    markTypes,
+    inlineTypes,
+    markColors,
+    inlineColors,
+    colorPresets
   )
 }

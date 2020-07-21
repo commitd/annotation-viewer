@@ -1,5 +1,5 @@
-import Mark from './components/Mark'
-import Viewer from './components/Viewer'
-
-export { Mark, Viewer }
-export default Viewer
+export * from './components/Mark'
+export * from './components/Legend'
+export * from './components/AnnotationView'
+export * from './components/AnnotationViewer'
+export { createTypeColors, createAnnotationColors } from './util/colorGenerator'

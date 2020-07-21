@@ -1,12 +1,65 @@
-import * as React from 'react'
-
-import { storiesOf } from '@storybook/react'
-import Mark from '../components/Mark'
+import React from 'react'
+import { Mark } from '../components/Mark'
 import { contained } from './decorators'
+import { defaultMarkColors } from '../util/colorPalette'
 
-storiesOf('mark', module)
-  .addDecorator(contained)
-  .add('default', () => (
+export default {
+  title: 'Mark',
+  decorators: [contained]
+}
+
+export const Default = () => (
+  <Mark
+    marks={[
+      {
+        offset: 49,
+        length: 10,
+        markType: 'org'
+      }
+    ]}
+    typeColors={{
+      org: 'blue'
+    }}
+  >
+    Parliament
+  </Mark>
+)
+
+export const ContrastText = () => (
+  <Mark
+    marks={[
+      {
+        offset: 49,
+        length: 10,
+        markType: 'org'
+      }
+    ]}
+    typeColors={{
+      org: 'blue'
+    }}
+    lightTextColor="#ddd"
+    darkTextColor="#111"
+  >
+    Parliament
+  </Mark>
+)
+const nestedColors = {
+  dfg: `#${defaultMarkColors[0]}`,
+  org: `#${defaultMarkColors[1]}`,
+  pol: `#${defaultMarkColors[2]}`
+}
+
+export const nested = () => (
+  <Mark
+    marks={[
+      {
+        offset: 49,
+        length: 10,
+        markType: 'dfg'
+      }
+    ]}
+    typeColors={nestedColors}
+  >
     <Mark
       marks={[
         {
@@ -15,41 +68,38 @@ storiesOf('mark', module)
           markType: 'org'
         }
       ]}
+      typeColors={nestedColors}
     >
-      Parliament
-    </Mark>
-  ))
-  .add('nested', () => (
-    <Mark
-      marks={[
-        {
-          offset: 49,
-          length: 10,
-          markType: 'dfg'
-        }
-      ]}
-    >
+      UK{' '}
       <Mark
         marks={[
           {
             offset: 49,
             length: 10,
-            markType: 'org'
+            markType: 'pol'
           }
         ]}
+        typeColors={nestedColors}
       >
-        UK{' '}
-        <Mark
-          marks={[
-            {
-              offset: 49,
-              length: 10,
-              markType: 'pol'
-            }
-          ]}
-        >
-          Parliament
-        </Mark>
+        Parliament
       </Mark>
     </Mark>
-  ))
+  </Mark>
+)
+
+export const NotIncluded = () => (
+  <Mark
+    marks={[
+      {
+        offset: 0,
+        length: 3,
+        markType: 'org'
+      }
+    ]}
+    included={false}
+    typeColors={nestedColors}
+    hideType={true}
+  >
+    ORG
+  </Mark>
+)

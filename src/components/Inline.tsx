@@ -1,20 +1,22 @@
 import * as React from 'react'
-import { makeStyles } from '@material-ui/core'
+import { makeStyles } from '@committed/components'
 import { InlineAnnotation } from 'types'
 import { BackgroundProperty } from 'csstype'
+import { defaultInlineColors } from '../util/colorPalette'
+import { getTypeColors } from '../util/colorGenerator'
 
 interface InlineProps {
   inlines: InlineAnnotation[]
-  inlineTypeColors: { [index: string]: BackgroundProperty<string> }
+  typeColors?: { [index: string]: BackgroundProperty<string> }
 }
 
-const useStyles = makeStyles(_theme => ({
+const useStyles = makeStyles({
   root: {
     // use inline to put border on wrapped text?
     display: 'inline-block',
     lineHeight: 2.2
   }
-}))
+})
 
 const SingleInline: React.FC<{ inlineColor: string; lineHeight: number }> = ({
   children,
@@ -31,17 +33,20 @@ const SingleInline: React.FC<{ inlineColor: string; lineHeight: number }> = ({
   )
 }
 
-const Inline: React.FC<InlineProps> = ({
+export const Inline: React.FC<InlineProps> = ({
   children,
   inlines,
-  inlineTypeColors
+  typeColors = getTypeColors(
+    inlines.map(m => m.inlineType),
+    defaultInlineColors
+  )
 }) => {
   let result = <>{children}</>
   let lineHeight = 2.2
   inlines.forEach(i => {
     result = (
       <SingleInline
-        inlineColor={inlineTypeColors[i.inlineType]}
+        inlineColor={typeColors[i.inlineType]}
         lineHeight={(lineHeight += 0.5)}
       >
         {result}
@@ -50,5 +55,3 @@ const Inline: React.FC<InlineProps> = ({
   })
   return result
 }
-
-export default Inline
