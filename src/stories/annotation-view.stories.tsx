@@ -13,7 +13,6 @@ import {
   overlappingInlines,
   overlappingMarks
 } from './examples'
-import annotationViewerStories from './annotation-viewer.stories'
 
 export default {
   title: 'AnnotationView',
