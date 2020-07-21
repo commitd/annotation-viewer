@@ -22,7 +22,4 @@ steps:
       GH_TOKEN:
         from_secret: github_token
     commands:
-      - npm publish --access public
-    when:
-      ref:
-        - refs/tags/v*
+      - npm unpublish @commitd/annotation-viewer@0.0.1
