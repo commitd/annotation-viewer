@@ -23,6 +23,21 @@ steps:
         from_secret: github_token
     commands:
       - npm publish --access public
+      - yarn deploy-storybook --ci
     when:
       ref:
         - refs/tags/v*
+
+  - name: announce
+    image: plugins/slack
+    settings:
+      channel: group-dev
+      webhook:
+        from_secret: slack_webhook
+      template: >
+        :tada: New version ${DRONE_TAG} of `@committed/annotation-viewer` available
+    when:
+      ref:
+        - refs/tags/v*
+      status:
+        - success

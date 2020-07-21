@@ -2,7 +2,7 @@ import { BackgroundProperty } from 'csstype'
 // @ts-ignore
 import { hashCode } from 'hashcode'
 import tinycolor2 from 'tinycolor2'
-import { InlineAnnotation, MarkAnnotation } from '../types'
+import { Annotation } from '../types'
 import { defaultInlineColors, defaultMarkColors } from './colorPalette'
 
 export function hash(o: string): number {
@@ -22,7 +22,7 @@ export const generateHexColorFromPalette = (
 }
 
 const getTypeColor = (
-  markType: string,
+  type: string,
   colors: BackgroundProperty<string>[],
   options: {
     opacity?: number
@@ -30,8 +30,8 @@ const getTypeColor = (
   } = {}
 ): BackgroundProperty<string> => {
   const background: BackgroundProperty<string> =
-    (options.colorPresets || {})[markType] ||
-    generateHexColorFromPalette(hash(markType) % colors.length, colors)
+    (options.colorPresets || {})[type] ||
+    generateHexColorFromPalette(hash(type) % colors.length, colors)
   if (tinycolor2(background).isValid()) {
     return tinycolor2(
       Object.assign(tinycolor2(background).toRgb(), {
@@ -44,14 +44,14 @@ const getTypeColor = (
 }
 
 export const getTypeColors = (
-  markTypes: string[],
+  types: string[],
   colors: BackgroundProperty<string>[],
   options: {
     opacity?: number
     colorPresets?: { [index: string]: BackgroundProperty<string> }
   } = {}
 ): { [index: string]: BackgroundProperty<string> } => {
-  return markTypes.reduce(
+  return types.reduce(
     (result: { [index: string]: BackgroundProperty<string> }, type: string) => {
       result[type] = getTypeColor(type, colors, options)
       return result
@@ -62,7 +62,7 @@ export const getTypeColors = (
 
 export function createTypeColors(
   /** A list of mark annotation types. */
-  markTypes: string[],
+  types: string[],
   /** A list of inline annotation types. */
   inlineTypes: string[],
   /**  Optional. List of possible mark annotation. background colours. Accepts any css background value e.g. hex colour, gradient, etc. */
@@ -72,7 +72,7 @@ export function createTypeColors(
   /** Optional. An object mapping an mark/inline type to a particular background colour. Will otherwise choose a colour from `markColours` automatically. */
   colorPresets?: { [index: string]: string }
 ): { [key: string]: BackgroundProperty<string> } {
-  const markTypeColors = getTypeColors(markTypes, markColors, {
+  const typeColors = getTypeColors(types, markColors, {
     colorPresets,
     opacity: 0.7
   })
@@ -80,14 +80,14 @@ export function createTypeColors(
     colorPresets
   })
 
-  return Object.assign({}, markTypeColors, inlineTypeColors)
+  return Object.assign({}, typeColors, inlineTypeColors)
 }
 
 export function createAnnotationColors(
   /** A list of mark  annotations to render over the text. Annotations consist of offsets in `text`. */
-  marks: MarkAnnotation[],
+  marks: Annotation[],
   /** A list of inline annotations to render over the text. Annotations consist of offsets in `text`. */
-  inlines: InlineAnnotation[],
+  inlines: Annotation[],
   /**  Optional. List of possible mark annotation. background colours. Accepts any css background value e.g. hex colour, gradient, etc. */
   markColors: BackgroundProperty<string>[] = defaultMarkColors,
   /**  Optional. List of possible mark annotation. background colours. Accepts any css background value e.g. hex colour, gradient, etc. */
@@ -95,8 +95,8 @@ export function createAnnotationColors(
   /** Optional. An object mapping an mark/inline type to a particular background colour. Will otherwise choose a colour from `markColours` automatically. */
   colorPresets?: { [index: string]: string }
 ): { [key: string]: BackgroundProperty<string> } {
-  const markTypes = Array.from(new Set(marks.map(m => m.markType)))
-  const inlineTypes = Array.from(new Set(inlines.map(i => i.inlineType)))
+  const markTypes = Array.from(new Set(marks.map(m => m.type)))
+  const inlineTypes = Array.from(new Set(inlines.map(i => i.type)))
 
   return createTypeColors(
     markTypes,

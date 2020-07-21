@@ -1,48 +1,58 @@
 import React from 'react'
-import { Mark } from '../components/Mark'
+import { AnnotationMark } from '../components/AnnotationMark'
 import { contained } from './decorators'
 import { defaultMarkColors } from '../util/colorPalette'
 
 export default {
-  title: 'Mark',
+  title: 'AnnotationMark',
   decorators: [contained]
 }
 
+const annotations = [
+  {
+    offset: 49,
+    length: 10,
+    type: 'org'
+  }
+]
+
+const typeColors = {
+  org: `#${defaultMarkColors[0]}`
+}
+
 export const Default = () => (
-  <Mark
-    marks={[
-      {
-        offset: 49,
-        length: 10,
-        markType: 'org'
-      }
-    ]}
-    typeColors={{
-      org: 'blue'
-    }}
-  >
+  <AnnotationMark annotations={annotations} typeColors={typeColors}>
     Parliament
-  </Mark>
+  </AnnotationMark>
 )
 
 export const ContrastText = () => (
-  <Mark
-    marks={[
-      {
-        offset: 49,
-        length: 10,
-        markType: 'org'
-      }
-    ]}
-    typeColors={{
-      org: 'blue'
-    }}
-    lightTextColor="#ddd"
-    darkTextColor="#111"
-  >
-    Parliament
-  </Mark>
+  <>
+    <AnnotationMark
+      key={'contrast1'}
+      annotations={annotations}
+      typeColors={{
+        org: 'blue'
+      }}
+      lightTextColor="#ddd"
+      darkTextColor="#111"
+    >
+      Parliament
+    </AnnotationMark>
+    <AnnotationMark
+      key={'contrast2'}
+      annotations={annotations}
+      typeColors={{
+        org: 'pink'
+      }}
+      lightTextColor="#ddd"
+      darkTextColor="#111"
+    >
+      Parliament
+    </AnnotationMark>
+  </>
 )
+
 const nestedColors = {
   dfg: `#${defaultMarkColors[0]}`,
   org: `#${defaultMarkColors[1]}`,
@@ -50,56 +60,71 @@ const nestedColors = {
 }
 
 export const nested = () => (
-  <Mark
-    marks={[
+  <AnnotationMark
+    annotations={[
       {
         offset: 49,
         length: 10,
-        markType: 'dfg'
+        type: 'dfg'
       }
     ]}
     typeColors={nestedColors}
   >
-    <Mark
-      marks={[
+    <AnnotationMark
+      annotations={[
         {
           offset: 49,
           length: 10,
-          markType: 'org'
+          type: 'org'
         }
       ]}
       typeColors={nestedColors}
     >
       UK{' '}
-      <Mark
-        marks={[
+      <AnnotationMark
+        annotations={[
           {
             offset: 49,
             length: 10,
-            markType: 'pol'
+            type: 'pol'
           }
         ]}
         typeColors={nestedColors}
       >
         Parliament
-      </Mark>
-    </Mark>
-  </Mark>
+      </AnnotationMark>
+    </AnnotationMark>
+  </AnnotationMark>
 )
 
 export const NotIncluded = () => (
-  <Mark
-    marks={[
-      {
-        offset: 0,
-        length: 3,
-        markType: 'org'
-      }
-    ]}
+  <AnnotationMark
+    annotations={annotations}
+    typeColors={typeColors}
     included={false}
-    typeColors={nestedColors}
     hideType={true}
   >
     ORG
-  </Mark>
+  </AnnotationMark>
+)
+
+export const WithToolTip = () => (
+  <AnnotationMark
+    annotations={annotations}
+    typeColors={typeColors}
+    hideType={true}
+    getTooltipText={_ann => 'ORG'}
+  >
+    Parliament
+  </AnnotationMark>
+)
+
+export const WithAction = () => (
+  <AnnotationMark
+    annotations={annotations}
+    typeColors={typeColors}
+    onClick={() => alert('ORG')}
+  >
+    Parliament
+  </AnnotationMark>
 )

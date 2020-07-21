@@ -2,7 +2,7 @@ import { Flex, Card, makeStyles } from '@committed/components'
 import { FlexDirectionProperty } from 'csstype'
 import React from 'react'
 import { AnnotationView, AnnotationViewProps } from './AnnotationView'
-import { Legend } from './Legend'
+import { AnnotationLegend } from './AnnotationLegend'
 import { useAnnotation } from './useAnnotations'
 
 export type Layout = 'none' | 'top' | 'bottom' | 'left' | 'right'
@@ -37,6 +37,12 @@ const layout = (
   }
 }
 
+/**
+ * The AnnotationViewer renders the given text with the given mark and inline annotations and provider a legend for the types that can toggle the annotations on and off.
+ *
+ * The layout can be configured using the `layout` props.
+ * The parts `AnnotationView`, `AnnotationLegend` and `useAnnotation` can be used separately if you want a different layout using this code as a guide.
+ */
 export const AnnotationViewer: React.FC<AnnotationViewerProps> = ({
   marks,
   inlines,
@@ -61,7 +67,7 @@ export const AnnotationViewer: React.FC<AnnotationViewerProps> = ({
       {legend !== 'none' && (
         // @ts-ignore
         <div className={classes[`legend-${legend}`]}>
-          <Legend
+          <AnnotationLegend
             typeColors={typeColors}
             selectedTypes={selectedTypes}
             fadeMarks={ViewerProps.markProps?.fade}

@@ -16,20 +16,20 @@ export const Default = () => (
       {
         offset: 4,
         length: 7,
-        markType: 'NORP'
+        type: 'NORP'
       },
 
       {
         offset: 49,
         length: 10,
-        markType: 'ORG'
+        type: 'ORG'
       }
     ]}
     inlines={[
       {
         offset: 4,
         length: 55,
-        inlineType: 'LINK'
+        type: 'LINK'
       }
     ]}
   />

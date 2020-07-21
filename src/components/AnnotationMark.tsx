@@ -1,23 +1,20 @@
 import { makeStyles, Tooltip } from '@committed/components'
 import clsx from 'clsx'
 import { BackgroundProperty, ColorProperty } from 'csstype'
-import * as React from 'react'
+import React from 'react'
 import tinycolor from 'tinycolor2'
-import { MarkAnnotation } from '../types'
+import { Annotation } from '../types'
 import { getTypeColors } from '../util/colorGenerator'
 import { defaultMarkColors } from '../util/colorPalette'
+import { AnnotationProps, AnnotationConfig } from 'types'
 
-export interface MarkProps {
-  marks: MarkAnnotation[]
-  onClick?: () => void
-  className?: string
+export interface AnnotationMarkConfig extends AnnotationConfig {
+  /** By default the annotation type is shown alongside the mark set false to disable */
   hideType?: boolean
-  typeColors?: { [index: string]: BackgroundProperty<string> }
-  renderType?: (markType: string) => React.ReactNode
+  /** By default the type is rendered as text, supply type to react node function to customize */
+  renderType?: (type: string) => React.ReactNode
+  /** Set true to fade the colors */
   fade?: boolean
-  hideLeftBorder?: boolean
-  hideRightBorder?: boolean
-  getTooltipText?: ((marks: MarkAnnotation[]) => string) | null
   /**
    * Contrast text color when background is dark, defaults to 'inherit'
    */
@@ -26,15 +23,24 @@ export interface MarkProps {
    * Contrast text color when background is light,, defaults to 'inherit'
    */
   darkTextColor?: ColorProperty
-  /**
-   * Flag for use in legend to indicate type is included or not.
-   */
+}
+
+export interface AnnotationMarkProps
+  extends AnnotationProps,
+    AnnotationMarkConfig {
+  /** flag to hide left border, for use when mark is split. */
+  hideLeftBorder?: boolean
+  /** flag to hide right border, for use when mark is split. */
+  hideRightBorder?: boolean
+  /** Flag for use in legend to indicate type is included or not. */
   included?: boolean
 }
+
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'inline-block',
-    cursor: 'pointer',
+    cursor: (props: AnnotationMarkProps) =>
+      props.onClick == null ? 'inherit' : 'pointer',
     lineHeight: 1.75,
     // don't break across multiple lines,
     ['-webkit-box-decoration-break']: 'clone',
@@ -87,8 +93,8 @@ const getBorderStyles = (
 }
 
 const getBackground = (
-  marks: MarkAnnotation[],
-  markType: string,
+  marks: Annotation[],
+  type: string,
   typeColors: { [index: string]: BackgroundProperty<string> },
   fade: boolean
 ) => {
@@ -97,46 +103,52 @@ const getBackground = (
   const bg =
     marks.length > 1
       ? `repeating-linear-gradient(135deg, ${marks
-          .map(m => typeColors[m.markType])
+          .map(m => typeColors[m.type])
           .map(
             col => `${col} ${ongoing}px, ${col} ${(ongoing += stripeLength)}px`
           )
           .join(', ')})`
-      : typeColors[markType]
+      : typeColors[type]
 
   return fade
     ? `linear-gradient(transparent -10%,rgba(255,255,255,0.7) 50%, transparent 110%), ${bg}`
     : bg
 }
 
-export const Mark: React.FC<MarkProps> = ({
-  children,
-  className,
-  marks,
-  onClick,
-  typeColors = getTypeColors(
-    marks.map(m => m.markType),
-    defaultMarkColors,
-    { opacity: 0.7 }
-  ),
-  hideLeftBorder,
-  hideRightBorder,
-  hideType = false,
-  fade = false,
-  lightTextColor = 'inherit',
-  darkTextColor = 'inherit',
-  renderType = type => type,
-  getTooltipText = marks => marks.map(m => m.markType).join(', '),
-  included = true
-}) => {
-  const classes = useStyles()
+/**
+ * This component renders the annotations by coloring the background of the text.
+ *
+ * You can optionally include the type inline and provide tooltip, onClick and multiple render options
+ */
+export const AnnotationMark: React.FC<AnnotationMarkProps> = props => {
+  const {
+    children,
+    className,
+    annotations,
+    onClick,
+    typeColors = getTypeColors(
+      annotations.map(m => m.type),
+      defaultMarkColors,
+      { opacity: 0.7 }
+    ),
+    hideLeftBorder,
+    hideRightBorder,
+    hideType = false,
+    fade = false,
+    lightTextColor = 'inherit',
+    darkTextColor = 'inherit',
+    renderType = type => type,
+    getTooltipText,
+    included = true
+  } = props
+  const classes = useStyles(props)
 
-  if (marks.length === 0) {
+  if (annotations.length === 0) {
     return <span>{children}</span>
   }
-  const markType = marks.map(m => m.markType).join(', ')
+  const type = annotations.map(m => m.type).join(', ')
 
-  const backgroundColor = getBackground(marks, markType, typeColors, fade)
+  const backgroundColor = getBackground(annotations, type, typeColors, fade)
   const background = included ? backgroundColor : 'transparent'
   const color = tinycolor(background).isDark() ? lightTextColor : darkTextColor
 
@@ -156,18 +168,16 @@ export const Mark: React.FC<MarkProps> = ({
     <span
       className={clsx(classes.root, className)}
       style={style}
-      onClick={onClick}
+      onClick={e => {
+        onClick && onClick(annotations)
+        onClick && e.stopPropagation()
+      }}
     >
       {children}
-      {!hideType && (
-        <span className={classes.type}>{renderType(markType)}</span>
-      )}
+      {!hideType && <span className={classes.type}>{renderType(type)}</span>}
     </span>
   )
 
-  return getTooltipText == null ? (
-    content
-  ) : (
-    <Tooltip title={getTooltipText(marks)}>{content}</Tooltip>
-  )
+  const tooltip = getTooltipText && getTooltipText(annotations)
+  return !tooltip ? content : <Tooltip title={tooltip}>{content}</Tooltip>
 }

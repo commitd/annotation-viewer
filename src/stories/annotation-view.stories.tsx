@@ -13,6 +13,7 @@ import {
   overlappingInlines,
   overlappingMarks
 } from './examples'
+import annotationViewerStories from './annotation-viewer.stories'
 
 export default {
   title: 'AnnotationView',
@@ -26,20 +27,20 @@ export const Default = () => (
       {
         offset: 4,
         length: 7,
-        markType: 'NORP'
+        type: 'NORP'
       },
 
       {
         offset: 49,
         length: 10,
-        markType: 'ORG'
+        type: 'ORG'
       }
     ]}
     inlines={[
       {
         offset: 4,
         length: 55,
-        inlineType: 'LINK'
+        type: 'LINK'
       }
     ]}
   />
@@ -53,7 +54,7 @@ export const InlineTest = () => (
       {
         offset: 0,
         length: 3,
-        inlineType: 'LINK'
+        type: 'LINK'
       }
     ]}
     typeColors={{
@@ -84,6 +85,13 @@ export const DarkColours = () => (
   />
 )
 
+export const WithOnClick = () => (
+  <AnnotationView
+    {...defaultProps}
+    onClick={args => alert(JSON.stringify(args, null, 2))}
+  />
+)
+
 export const CustomColourPreset = () => (
   <AnnotationView
     {...defaultProps}
@@ -100,6 +108,19 @@ export const CustomColourPreset = () => (
 
 export const StyledText = () => (
   <AnnotationView {...defaultProps} typographyProps={{ variant: 'h2' }} />
+)
+
+export const ToolTipTypes = () => (
+  <AnnotationView
+    {...defaultProps}
+    markProps={{
+      hideType: true,
+      getTooltipText: annotations => annotations.map(a => a.type).join(', ')
+    }}
+    inlineProps={{
+      getTooltipText: annotations => annotations.map(a => a.type).join(', ')
+    }}
+  />
 )
 
 export const ContrastText = () => (
@@ -156,27 +177,27 @@ export const ManyOverlappingMarks = () => (
       {
         offset: 0,
         length: 15,
-        markType: 'type1'
+        type: 'type1'
       },
       {
         offset: 5,
         length: 10,
-        markType: 'type2'
+        type: 'type2'
       },
       {
         offset: 5,
         length: 2,
-        markType: 'type3'
+        type: 'type3'
       },
       {
         offset: 0,
         length: 4,
-        markType: 'type4'
+        type: 'type4'
       },
       {
         offset: 8,
         length: 7,
-        markType: 'type5'
+        type: 'type5'
       }
     ]}
     typeColors={{
@@ -196,9 +217,16 @@ export const ManyOverlappingMarks = () => (
 
 export const OverlappingMarksAndInlines = () => (
   <AnnotationView
-    {...defaultProps}
     text="UK prime minister Boris Johnson lives in the UK capital, London"
     marks={overlappingMarks}
     inlines={overlappingInlines}
+  />
+)
+
+export const SwitchedOverlappingMarksAndInlines = () => (
+  <AnnotationView
+    text="UK prime minister Boris Johnson lives in the UK capital, London"
+    marks={overlappingInlines}
+    inlines={overlappingMarks}
   />
 )

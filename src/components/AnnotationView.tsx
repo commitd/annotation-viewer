@@ -1,34 +1,33 @@
-import { makeStyles, Typography } from '@committed/components'
+import { makeStyles, Span } from '@committed/components'
 import { BackgroundProperty } from 'csstype'
 import React from 'react'
-import { InlineAnnotation, MarkAnnotation } from '../types'
+import { Annotation } from '../types'
 import { getEnd, isIntersecting } from '../util/spans'
 import { tokenise } from '../util/tokeniser'
-import { Inline } from './Inline'
-import { Mark, MarkProps } from './Mark'
+import { AnnotationInline, AnnotationInlineConfig } from './AnnotationInline'
+import { AnnotationMark, AnnotationMarkConfig } from './AnnotationMark'
 
 export interface AnnotationViewProps {
   /** A text string. */
   text: string
-  /** A list of mark  annotations to render over the text. Annotations consist of offsets in `text`. */
-  marks: MarkAnnotation[]
-  /** A list of inline annotations to render over the text. Annotations consist of offsets in `text`. */
-  inlines: InlineAnnotation[]
+  /** A list of annotations to render over the text using Marks. Annotations consist of offsets in `text`. */
+  marks: Annotation[]
+  /** A list of annotations to render over the text using Inlines. Annotations consist of offsets in `text`. */
+  inlines: Annotation[]
   /** Optional. Triggered when an annotation is clicked on. */
   onClick?: (selection: {
     text: string
-    marks: MarkAnnotation[]
-    inlines: InlineAnnotation[]
+    marks: Annotation[]
+    inlines: Annotation[]
   }) => void
   /** Optional. Colors of the types. An object mapping an mark/inline type to a particular background colour. */
   typeColors?: { [index: string]: BackgroundProperty<string> }
-  /** Optional. Customises the styling of the text. Applied to all text regardless of annotations. See https://material-ui.com/api/typography/ for a full list of options. */
-  typographyProps?: React.ComponentProps<typeof Typography>
+  /** Optional. Customises the styling of the text. Applied to all text regardless of annotations. See https://material-ui.com/api/Span/ for a full list of options. */
+  typographyProps?: React.ComponentProps<typeof Span>
+  /** Addition props provided to configure the marks */
+  markProps?: AnnotationMarkConfig
   /** Addition props provided to the marks */
-  markProps?: Omit<
-    MarkProps,
-    'marks' | 'onClick' | 'typeColors' | 'hideLeftBorder' | 'hideRightBorder'
-  >
+  inlineProps?: AnnotationInlineConfig
 }
 
 const useStyles = makeStyles({
@@ -40,6 +39,11 @@ const useStyles = makeStyles({
   }
 })
 
+/**
+ * The AnnotationView renders the given text with the given mark and inline annotations.
+ *
+ * It can be used separately or with the AnnotationLegend. This is done for you in `AnnotationViewer` but can be done separately using `useAnnotation` if you want a different layout.
+ */
 export const AnnotationView: React.FC<AnnotationViewProps> = ({
   text,
   marks,
@@ -47,14 +51,15 @@ export const AnnotationView: React.FC<AnnotationViewProps> = ({
   typographyProps,
   onClick,
   typeColors,
-  markProps
+  markProps,
+  inlineProps
 }) => {
   const classes = useStyles()
   const inlineSpanTokens = tokenise(text, inlines)
 
   return (
     <div>
-      <Typography {...typographyProps} className={classes.text}>
+      <Span {...typographyProps} className={classes.text}>
         {inlineSpanTokens.map(rt => {
           const markTokens = tokenise(
             rt.text,
@@ -78,16 +83,16 @@ export const AnnotationView: React.FC<AnnotationViewProps> = ({
                 const nextToken =
                   i < markTokens.length - 1 ? markTokens[i + 1] : null
                 return (
-                  <Mark
+                  <AnnotationMark
                     key={`mark-${t.offset}-${t.length}`}
-                    marks={t.annotations}
+                    annotations={t.annotations}
                     onClick={
                       onClick == null
                         ? undefined
-                        : () =>
+                        : annotations =>
                             onClick({
                               text: t.text,
-                              marks: t.annotations,
+                              marks: annotations,
                               inlines: rt.annotations
                             })
                     }
@@ -102,22 +107,33 @@ export const AnnotationView: React.FC<AnnotationViewProps> = ({
                     {...markProps}
                   >
                     {t.text}
-                  </Mark>
+                  </AnnotationMark>
                 )
               })}
             </>
           )
           return (
-            <Inline
+            <AnnotationInline
               key={`inline-${rt.offset}-${rt.length}`}
-              inlines={rt.annotations}
+              annotations={rt.annotations}
               typeColors={typeColors}
+              onClick={
+                onClick == null
+                  ? undefined
+                  : annotations =>
+                      onClick({
+                        text: rt.text,
+                        marks: [],
+                        inlines: annotations
+                      })
+              }
+              {...inlineProps}
             >
               {content}
-            </Inline>
+            </AnnotationInline>
           )
         })}
-      </Typography>
+      </Span>
     </div>
   )
 }
