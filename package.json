@@ -2,7 +2,7 @@
   "name": "@commitd/annotation-viewer",
   "version": "0.0.1",
   "description": "Annotation Viewer",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "repository": "git://github.com/commitd/annotation-viewer",
   "main": "dist/index.js",
   "module": "dist/annotator-viewer2.esm.js",
@@ -11,7 +11,7 @@
     "dist"
   ],
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
+    "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
     "start": "tsdx watch",
