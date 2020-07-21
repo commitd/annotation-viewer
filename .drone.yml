@@ -4,8 +4,25 @@ type: docker
 name: annotation-viewer
 
 steps:
+  - name: npm_auth
+    image: robertstettner/drone-npm-auth
+    settings:
+      token:
+        from_secret: npm_token
+
   - name: build
     image: node:latest
     commands:
       - yarn install
       - yarn build
+
+  - name: publish
+    image: node:latest
+    environment:
+      GH_TOKEN:
+        from_secret: github_token
+    commands:
+      - npm publish --access public
+    when:
+      ref:
+        - refs/tags/v*
