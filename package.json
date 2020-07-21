@@ -20,6 +20,7 @@
     "lint": "tsdx lint",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "build-storybook": "build-storybook",
+    "deploy-storybook": "storybook-to-ghpages",
     "format": "prettier --write '{**/*.js,*.ts,*.tsx,*.json,*.md,*.mdx}'",
     "format-check": "prettier --check '{**/*.js,*.ts,*.tsx,*.json,*.md,*.mdx}'"
   },
@@ -59,7 +60,7 @@
     "@storybook/addons": "^5.3.19",
     "@storybook/preset-typescript": "^3.0.0",
     "@storybook/react": "^5.3.19",
-    "@storybook/storybook-deployer": "^2.8.1",
+    "@storybook/storybook-deployer": "^2.8.6",
     "@types/jest": "^24.0.18",
     "@types/react": "^16.9.2",
     "@types/react-dom": "^16.9.0",

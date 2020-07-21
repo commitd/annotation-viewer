@@ -6,32 +6,31 @@ import { AnnotationViewer } from '../dist'
 
 const App = () => {
   return (
-    <div>
-      <ThemeProvider>
-        <AnnotationViewer
-          text="The British people are represented by members of Parliament"
-          marks={[
-            {
-              offset: 4,
-              length: 7,
-              markType: 'NORP'
-            },
+    <ThemeProvider>
+      <AnnotationViewer
+        text="The British people are represented by members of Parliament"
+        marks={[
+          {
+            offset: 4,
+            length: 7,
+            type: 'NORP'
+          },
 
-            {
-              offset: 49,
-              length: 10,
-              markType: 'ORG'
-            }
-          ]}
-          inlines={[
-            {
-              offset: 4,
-              length: 55
-            }
-          ]}
-        />
-      </ThemeProvider>
-    </div>
+          {
+            offset: 49,
+            length: 10,
+            type: 'ORG'
+          }
+        ]}
+        inlines={[
+          {
+            offset: 4,
+            length: 55,
+            type: 'link'
+          }
+        ]}
+      />
+    </ThemeProvider>
   )
 }
 

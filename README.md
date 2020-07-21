@@ -2,51 +2,62 @@
 
 > Annotation Viewer
 
-[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
-
+[![Committed Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fcommitted.software%2Fbadge)](https://committed.io)
+[![Build Status](https://drone.committed.software/api/badges/commitd/annotation-viewer/status.svg)](https://drone.committed.software/commitd/annotation-viewer)
+[![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@master/badge/badge-storybook.svg)](https://committed.software/annotation-viewer)
 ![](images/example.png)
 
 ## Install
 
 ```bash
-yarn add @committed/annotation-viewer
+yarn add @committed/annotation-viewer @committed/components @material-ui/core
+```
+
+Peer dependencies
+
+```bash
+yarn add  @committed/components @material-ui/core
 ```
 
 ## Usage
 
 ```tsx
-import * as React from 'react'
-
-import Viewer from '@committed/annotation-viewer'
+import React from 'react'
+import { AnnotationViewer } from '@committed/annotation-viewer'
 
 class Example extends React.Component {
   render() {
     return (
-      <Viewer
-      text="The British people are represented by members of Parliament"
-      marks={[
-        {
-          offset: 4,
-          length: 7,
-          markType: 'NORP'
-        },
-        {
-          offset: 49,
-          length: 10,
-          markType: 'ORG'
-        }
-      ]}
-      inlines={[
-        {
-          offset: 4,
-          length: 55
-        }
-      ]}
-    />
+      <AnnotationViewer
+        text="The British people are represented by members of Parliament"
+        marks={[
+          {
+            offset: 4,
+            length: 7,
+            type: 'NORP'
+          },
+          {
+            offset: 49,
+            length: 10,
+            type: 'ORG'
+          }
+        ]}
+        inlines={[
+          {
+            offset: 4,
+            length: 55,
+            type: 'Link'
+          }
+        ]}
+      />
     )
   }
 }
 ```
+
+> NB The committed component `ThemeProvider` must be in the react component stack. (Future versions may remove these pees dependencies.)
+
+Further examples of use and configuration options can be seen in the [storybook](https://committed.software/annotation-viewer).
 
 ## Development
 
@@ -68,7 +79,7 @@ yarn build-storybook
 
 To run the example:
 
-```
+```bash
 yarn
 yarn build
 cd example
@@ -78,4 +89,4 @@ yarn start
 
 ## License
 
-© [Committed Software](https://github.com/commitd)
+[MIT](/LICENSE) - © Committed Software 2020 https://committed.io

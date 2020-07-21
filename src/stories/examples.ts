@@ -1,95 +1,95 @@
 import { action } from '@storybook/addon-actions'
-import { InlineAnnotation, MarkAnnotation } from '../types'
+import { Annotation } from '../types'
 
 export const text = `The British people are represented by members of Parliament, not ruled by monarchs. However, after the English Civil War, Oliver Cromwell became Lord Protector, and the monarchy was disbanded.`
 
-export const marks: MarkAnnotation[] = [
+export const marks: Annotation[] = [
   {
     offset: 4,
     length: 7,
-    markType: 'NORP'
+    type: 'NORP'
   },
   {
     offset: 49,
     length: 10,
-    markType: 'ORG'
+    type: 'ORG'
   },
   {
     offset: 99,
     length: 21,
-    markType: 'EVENT'
+    type: 'EVENT'
   },
   {
     offset: 122,
     length: 15,
-    markType: 'PERSON'
+    type: 'PERSON'
   },
   {
     offset: 145,
     length: 14,
-    markType: 'ORG'
+    type: 'ORG'
   },
   {
     offset: 165,
     length: 12,
-    markType: 'ORG'
+    type: 'ORG'
   }
 ]
 
-export const inlines: InlineAnnotation[] = [
+export const inlines: Annotation[] = [
   {
     offset: 4,
     length: 55,
-    inlineType: 'LINK'
+    type: 'LINK'
   },
   {
     offset: 122,
     length: 37,
-    inlineType: 'LINK'
+    type: 'LINK'
   }
 ]
 
-export const overlappingMarks: MarkAnnotation[] = [
+export const overlappingMarks: Annotation[] = [
   {
     offset: 0,
     length: 2,
-    markType: 'COUNTRY'
+    type: 'COUNTRY'
   },
   {
     offset: 0,
     length: 17,
-    markType: 'ROLE'
+    type: 'ROLE'
   },
   {
     offset: 18,
     length: 13,
-    markType: 'PERSON'
+    type: 'PERSON'
   },
   {
     offset: 45,
     length: 2,
-    markType: 'COUNTRY'
+    type: 'COUNTRY'
   },
   // UK capital
   {
     offset: 45,
     length: 10,
-    markType: 'PLACE'
+    type: 'PLACE'
   }
 ]
 
-export const overlappingInlines: InlineAnnotation[] = [
+export const overlappingInlines: Annotation[] = [
   //UK prime minister Boris Johnson
   {
     offset: 0,
     length: 31,
-    inlineType: 'worksAs'
+    type: 'worksAs'
   },
   // Boris Johnson lives in the UK capital, London
   {
     offset: 18,
     length: 45,
-    inlineType: 'livesIn'
+    type: 'livesIn'
   }
 ]
 
