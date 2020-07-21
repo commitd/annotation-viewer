@@ -24,7 +24,6 @@
     "format-check": "prettier --check '{**/*.js,*.ts,*.tsx,*.json,*.md,*.mdx}'"
   },
   "dependencies": {
-    "@commitd/components": "^0.0.3",
     "@types/randomcolor": "^0.5.3",
     "@types/tinycolor2": "^1.4.2",
     "clsx": "^1.0.4",
@@ -33,6 +32,8 @@
     "tinycolor2": "^1.4.1"
   },
   "peerDependencies": {
+    "@committed/components": "^3.2.0",
+    "@material-ui/core": "^4.11.0",
     "react": ">=16"
   },
   "husky": {
@@ -45,22 +46,23 @@
     "singleQuote": true
   },
   "devDependencies": {
-    "@material-ui/icons": "^4.2.1",
-    "@storybook/addon-a11y": "^5.2.0-rc.11",
-    "@storybook/addon-actions": "^5.2.0-rc.11",
-    "@storybook/addon-docs": "^5.2.0-rc.11",
-    "@storybook/addon-info": "^5.2.0-rc.11",
-    "@storybook/addon-knobs": "^5.2.0-rc.11",
-    "@storybook/addon-links": "^5.2.0-rc.11",
-    "@storybook/addon-storysource": "^5.2.0-rc.11",
-    "@storybook/addons": "^5.2.0-rc.11",
-    "@storybook/react": "^5.2.0-rc.11",
+    "@material-ui/icons": "^4.9.1",
+    "@storybook/addon-a11y": "^5.3.19",
+    "@storybook/addon-actions": "^5.3.19",
+    "@storybook/addon-docs": "^5.3.19",
+    "@storybook/addon-info": "^5.3.19",
+    "@storybook/addon-knobs": "^5.3.19",
+    "@storybook/addon-links": "^5.3.19",
+    "@storybook/addon-storysource": "^5.3.19",
+    "@storybook/addons": "^5.3.19",
+    "@storybook/preset-typescript": "^3.0.0",
+    "@storybook/react": "^5.3.19",
     "@storybook/storybook-deployer": "^2.8.1",
     "@types/jest": "^24.0.18",
     "@types/react": "^16.9.2",
     "@types/react-dom": "^16.9.0",
-    "@types/storybook__react": "^4.0.2",
     "babel-loader": "^8.0.6",
+    "fork-ts-checker-webpack-plugin": "^5.0.7",
     "husky": "^3.0.5",
     "prettier": "^1.18.2",
     "pretty-quick": "^1.11.1",
@@ -68,8 +70,10 @@
     "react": "^16.9.0",
     "react-docgen-typescript-loader": "^3.2.0",
     "react-dom": "^16.9.0",
-    "tsdx": "^0.9.0",
-    "tslib": "^1.10.0",
-    "typescript": "^3.6.2"
+    "storybook-dark-mode": "^0.6.1",
+    "ts-loader": "^8.0.1",
+    "tsdx": "^0.13.2",
+    "tslib": "^2.0.0",
+    "typescript": "^3.9.7"
   }
 }
