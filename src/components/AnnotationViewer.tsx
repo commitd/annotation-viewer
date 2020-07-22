@@ -44,8 +44,8 @@ const layout = (
  * The parts `AnnotationView`, `AnnotationLegend` and `useAnnotation` can be used separately if you want a different layout using this code as a guide.
  */
 export const AnnotationViewer: React.FC<AnnotationViewerProps> = ({
-  marks,
-  inlines,
+  marks = [],
+  inlines = [],
   typeColors: typeColorOverrides,
   typographyProps,
   legend = 'top',

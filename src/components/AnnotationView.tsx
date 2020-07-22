@@ -11,9 +11,9 @@ export interface AnnotationViewProps {
   /** A text string. */
   text: string
   /** A list of annotations to render over the text using Marks. Annotations consist of offsets in `text`. */
-  marks: Annotation[]
+  marks?: Annotation[]
   /** A list of annotations to render over the text using Inlines. Annotations consist of offsets in `text`. */
-  inlines: Annotation[]
+  inlines?: Annotation[]
   /** Optional. Triggered when an annotation is clicked on. */
   onClick?: (selection: {
     text: string
@@ -46,8 +46,8 @@ const useStyles = makeStyles({
  */
 export const AnnotationView: React.FC<AnnotationViewProps> = ({
   text,
-  marks,
-  inlines,
+  marks = [],
+  inlines = [],
   typographyProps,
   onClick,
   typeColors,
