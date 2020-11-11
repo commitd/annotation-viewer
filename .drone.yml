@@ -14,8 +14,9 @@ steps:
     image: node:latest
     commands:
       - yarn install
-      - yarn build-storybook --quiet
+      # - yarn build-storybook --quiet
       - yarn build
+      - yarn deploy-storybook --ci
 
   - name: publish
     image: node:latest
