@@ -12,6 +12,9 @@ steps:
 
   - name: build
     image: node:latest
+    environment:
+      GH_TOKEN:
+        from_secret: github_token
     commands:
       - yarn install
       # - yarn build-storybook --quiet
