@@ -5,19 +5,19 @@ import { defaultMarkColors } from '../util/colorPalette'
 
 export default {
   title: 'AnnotationMark',
-  decorators: [contained]
+  decorators: [contained],
 }
 
 const annotations = [
   {
     offset: 49,
     length: 10,
-    type: 'org'
-  }
+    type: 'org',
+  },
 ]
 
 const typeColors = {
-  org: `#${defaultMarkColors[0]}`
+  org: `#${defaultMarkColors[0]}`,
 }
 
 export const Default = () => (
@@ -32,7 +32,7 @@ export const ContrastText = () => (
       key={'contrast1'}
       annotations={annotations}
       typeColors={{
-        org: 'blue'
+        org: 'blue',
       }}
       lightTextColor="#ddd"
       darkTextColor="#111"
@@ -43,7 +43,7 @@ export const ContrastText = () => (
       key={'contrast2'}
       annotations={annotations}
       typeColors={{
-        org: 'pink'
+        org: 'pink',
       }}
       lightTextColor="#ddd"
       darkTextColor="#111"
@@ -56,7 +56,7 @@ export const ContrastText = () => (
 const nestedColors = {
   dfg: `#${defaultMarkColors[0]}`,
   org: `#${defaultMarkColors[1]}`,
-  pol: `#${defaultMarkColors[2]}`
+  pol: `#${defaultMarkColors[2]}`,
 }
 
 export const nested = () => (
@@ -65,8 +65,8 @@ export const nested = () => (
       {
         offset: 49,
         length: 10,
-        type: 'dfg'
-      }
+        type: 'dfg',
+      },
     ]}
     typeColors={nestedColors}
   >
@@ -75,8 +75,8 @@ export const nested = () => (
         {
           offset: 49,
           length: 10,
-          type: 'org'
-        }
+          type: 'org',
+        },
       ]}
       typeColors={nestedColors}
     >
@@ -86,8 +86,8 @@ export const nested = () => (
           {
             offset: 49,
             length: 10,
-            type: 'pol'
-          }
+            type: 'pol',
+          },
         ]}
         typeColors={nestedColors}
       >
@@ -113,7 +113,7 @@ export const WithToolTip = () => (
     annotations={annotations}
     typeColors={typeColors}
     hideType={true}
-    getTooltipText={_ann => 'ORG'}
+    getTooltipText={(_ann) => 'ORG'}
   >
     Parliament
   </AnnotationMark>

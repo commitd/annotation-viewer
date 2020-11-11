@@ -35,8 +35,8 @@ const useStyles = makeStyles({
     wordSpacing: '0.05em',
     display: 'inline-block',
     lineHeight: 3,
-    whiteSpace: 'pre-wrap'
-  }
+    whiteSpace: 'pre-wrap',
+  },
 })
 
 /**
@@ -52,7 +52,7 @@ export const AnnotationView: React.FC<AnnotationViewProps> = ({
   onClick,
   typeColors,
   markProps,
-  inlineProps
+  inlineProps,
 }) => {
   const classes = useStyles()
   const inlineSpanTokens = tokenise(text, inlines)
@@ -60,21 +60,23 @@ export const AnnotationView: React.FC<AnnotationViewProps> = ({
   return (
     <div>
       <Span {...typographyProps} className={classes.text}>
-        {inlineSpanTokens.map(rt => {
+        {inlineSpanTokens.map((rt) => {
           const markTokens = tokenise(
             rt.text,
             marks
-              .filter(a => isIntersecting(rt, a))
-              .map(t => {
+              .filter((a) => isIntersecting(rt, a))
+              .map((t) => {
                 const clippedOffset = Math.max(t.offset, rt.offset)
                 const clippedEnd = Math.min(getEnd(t), getEnd(rt))
                 const clippedLength = clippedEnd - clippedOffset
                 return Object.assign(t, {
                   offset: clippedOffset,
-                  length: clippedLength
+                  length: clippedLength,
                 })
               })
-              .map(o => Object.assign({}, o, { offset: o.offset - rt.offset }))
+              .map((o) =>
+                Object.assign({}, o, { offset: o.offset - rt.offset })
+              )
           )
           const content = (
             <>
@@ -89,11 +91,11 @@ export const AnnotationView: React.FC<AnnotationViewProps> = ({
                     onClick={
                       onClick == null
                         ? undefined
-                        : annotations =>
+                        : (annotations) =>
                             onClick({
                               text: t.text,
                               marks: annotations,
-                              inlines: rt.annotations
+                              inlines: rt.annotations,
                             })
                     }
                     typeColors={typeColors}
@@ -120,11 +122,11 @@ export const AnnotationView: React.FC<AnnotationViewProps> = ({
               onClick={
                 onClick == null
                   ? undefined
-                  : annotations =>
+                  : (annotations) =>
                       onClick({
                         text: rt.text,
                         marks: [],
-                        inlines: annotations
+                        inlines: annotations,
                       })
               }
               {...inlineProps}

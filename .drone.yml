@@ -28,6 +28,34 @@ steps:
       ref:
         - refs/tags/v*
 
+  - name: code-analysis
+    image: committed/drone-sonarqube-node
+    environment:
+      SONAR_HOST:
+        from_secret: sonar_host
+      SONAR_TOKEN:
+        from_secret: sonar_token
+    settings:
+      exclusions: '**/node_modules/**/*,**/dist/**/*.js'
+    when:
+      branch:
+        - master
+      event:
+        exclude:
+          - pull_request
+
+  - name: slack
+    image: plugins/slack
+    settings:
+      channel: group-ci
+      webhook:
+        from_secret: slack_webhook
+      template:
+        from_secret: slack_template
+    when:
+      status:
+        - failure
+
   - name: announce
     image: plugins/slack
     settings:

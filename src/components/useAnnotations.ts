@@ -26,8 +26,8 @@ export function useAnnotation(
   inlines: Annotation[],
   colorPresets?: { [key: string]: BackgroundProperty<string> }
 ) {
-  const markTypes = Array.from(new Set(marks.map(m => m.type)))
-  const inlineTypes = Array.from(new Set(inlines.map(i => i.type)))
+  const markTypes = Array.from(new Set(marks.map((m) => m.type)))
+  const inlineTypes = Array.from(new Set(inlines.map((i) => i.type)))
 
   const [selectedTypes, setSelectedTypes] = useState(
     markTypes.concat(inlineTypes)
@@ -35,23 +35,23 @@ export function useAnnotation(
 
   const toggleType = (type: string) => {
     selectedTypes.includes(type)
-      ? setSelectedTypes(selectedTypes.filter(t => t !== type))
+      ? setSelectedTypes(selectedTypes.filter((t) => t !== type))
       : setSelectedTypes(selectedTypes.concat([type]))
   }
 
-  const filteredMarks = marks.filter(m => selectedTypes.includes(m.type))
-  const filteredInlines = inlines.filter(i => selectedTypes.includes(i.type))
+  const filteredMarks = marks.filter((m) => selectedTypes.includes(m.type))
+  const filteredInlines = inlines.filter((i) => selectedTypes.includes(i.type))
 
   const typeColors = useMemo(
     () =>
       Object.assign(
         getTypeColors(
-          marks.map(m => m.type),
+          marks.map((m) => m.type),
           defaultMarkColors,
           { colorPresets, opacity: 0.7 }
         ),
         getTypeColors(
-          inlines.map(m => m.type),
+          inlines.map((m) => m.type),
           defaultInlineColors,
           { colorPresets }
         )
@@ -66,6 +66,6 @@ export function useAnnotation(
     filteredInlines,
     selectedTypes,
     toggleType,
-    typeColors
+    typeColors,
   }
 }

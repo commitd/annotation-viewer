@@ -7,75 +7,75 @@ export const marks: Annotation[] = [
   {
     offset: 4,
     length: 7,
-    type: 'NORP'
+    type: 'NORP',
   },
   {
     offset: 49,
     length: 10,
-    type: 'ORG'
+    type: 'ORG',
   },
   {
     offset: 99,
     length: 21,
-    type: 'EVENT'
+    type: 'EVENT',
   },
   {
     offset: 122,
     length: 15,
-    type: 'PERSON'
+    type: 'PERSON',
   },
   {
     offset: 145,
     length: 14,
-    type: 'ORG'
+    type: 'ORG',
   },
   {
     offset: 165,
     length: 12,
-    type: 'ORG'
-  }
+    type: 'ORG',
+  },
 ]
 
 export const inlines: Annotation[] = [
   {
     offset: 4,
     length: 55,
-    type: 'LINK'
+    type: 'LINK',
   },
   {
     offset: 122,
     length: 37,
-    type: 'LINK'
-  }
+    type: 'LINK',
+  },
 ]
 
 export const overlappingMarks: Annotation[] = [
   {
     offset: 0,
     length: 2,
-    type: 'COUNTRY'
+    type: 'COUNTRY',
   },
   {
     offset: 0,
     length: 17,
-    type: 'ROLE'
+    type: 'ROLE',
   },
   {
     offset: 18,
     length: 13,
-    type: 'PERSON'
+    type: 'PERSON',
   },
   {
     offset: 45,
     length: 2,
-    type: 'COUNTRY'
+    type: 'COUNTRY',
   },
   // UK capital
   {
     offset: 45,
     length: 10,
-    type: 'PLACE'
-  }
+    type: 'PLACE',
+  },
 ]
 
 export const overlappingInlines: Annotation[] = [
@@ -83,19 +83,19 @@ export const overlappingInlines: Annotation[] = [
   {
     offset: 0,
     length: 31,
-    type: 'worksAs'
+    type: 'worksAs',
   },
   // Boris Johnson lives in the UK capital, London
   {
     offset: 18,
     length: 45,
-    type: 'livesIn'
-  }
+    type: 'livesIn',
+  },
 ]
 
 export const defaultProps = {
   text,
   marks,
   inlines,
-  onAnnotationClick: action('clicked on annotation')
+  onAnnotationClick: action('clicked on annotation'),
 }

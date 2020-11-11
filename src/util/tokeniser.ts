@@ -17,19 +17,19 @@ export const tokenise = <A extends Span>(
   annotations: A[]
 ): Token<A>[] => {
   const events = annotations
-    .flatMap(a => [{ index: a.offset, annotations }, { index: getEnd(a) }])
+    .flatMap((a) => [{ index: a.offset, annotations }, { index: getEnd(a) }])
     .sort(byIndexAscending)
 
   let lastTokenEnd = 0
 
-  const spans: Span[] = events.flatMap(e => {
+  const spans: Span[] = events.flatMap((e) => {
     const tokens =
       e.index > lastTokenEnd
         ? [
             {
               offset: lastTokenEnd,
-              length: e.index - lastTokenEnd
-            }
+              length: e.index - lastTokenEnd,
+            },
           ]
         : []
     lastTokenEnd = e.index
@@ -39,9 +39,9 @@ export const tokenise = <A extends Span>(
     spans.push({ offset: lastTokenEnd, length: text.length - lastTokenEnd })
   }
 
-  return spans.map(s => ({
+  return spans.map((s) => ({
     ...s,
     text: text.substr(s.offset, s.length),
-    annotations: annotations.filter(a => isIntersecting(s, a))
+    annotations: annotations.filter((a) => isIntersecting(s, a)),
   }))
 }

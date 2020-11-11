@@ -1,0 +1,9 @@
+import React from 'react'
+import { render } from '../../setupTests'
+import { Primary } from './{{ name }}.stories'
+import { {{ name }} } from '.'
+
+it('renders story', () => {
+  const { asFragment } = render(<Primary />)
+  expect(asFragment()).toMatchSnapshot()
+})

@@ -43,12 +43,12 @@ export const AnnotationLegend: React.FC<AnnotationLegendProps> = ({
   toggleType,
   fadeMarks,
   typographyProps,
-  layout = 'row'
+  layout = 'row',
 }) => {
   return (
     <Span {...typographyProps}>
       <Flex flexDirection={layout} flexWrap="wrap">
-        {Object.keys(typeColors).map(t => {
+        {Object.keys(typeColors).map((t) => {
           const onClick = () => toggleType(t)
           return (
             <Box key={t} m={1} onClick={onClick}>

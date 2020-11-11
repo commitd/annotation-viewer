@@ -13,21 +13,21 @@ const App = () => {
           {
             offset: 4,
             length: 7,
-            type: 'NORP'
+            type: 'NORP',
           },
 
           {
             offset: 49,
             length: 10,
-            type: 'ORG'
-          }
+            type: 'ORG',
+          },
         ]}
         inlines={[
           {
             offset: 4,
             length: 55,
-            type: 'link'
-          }
+            type: 'link',
+          },
         ]}
       />
     </ThemeProvider>

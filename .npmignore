@@ -1,0 +1,11 @@
+.*
+**/tsconfig.json
+**/webpack.config.js
+node_modules
+src
+stories
+example
+lib
+lib-esm
+_bundles
+tsdx.config.js

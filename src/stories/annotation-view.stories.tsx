@@ -11,12 +11,12 @@ import {
   inlines,
   marks,
   overlappingInlines,
-  overlappingMarks
+  overlappingMarks,
 } from './examples'
 
 export default {
   title: 'AnnotationView',
-  decorators: [contained]
+  decorators: [contained],
 }
 
 export const Default = () => (
@@ -26,21 +26,21 @@ export const Default = () => (
       {
         offset: 4,
         length: 7,
-        type: 'NORP'
+        type: 'NORP',
       },
 
       {
         offset: 49,
         length: 10,
-        type: 'ORG'
-      }
+        type: 'ORG',
+      },
     ]}
     inlines={[
       {
         offset: 4,
         length: 55,
-        type: 'LINK'
-      }
+        type: 'LINK',
+      },
     ]}
   />
 )
@@ -53,11 +53,11 @@ export const InlineTest = () => (
       {
         offset: 0,
         length: 3,
-        type: 'LINK'
-      }
+        type: 'LINK',
+      },
     ]}
     typeColors={{
-      LINK: `#${defaultInlineColors[0]}`
+      LINK: `#${defaultInlineColors[0]}`,
     }}
   />
 )
@@ -70,7 +70,7 @@ export const CustomColours = () => (
       {
         NORP: 'red',
         ORG: 'blue',
-        LINK: 'green'
+        LINK: 'green',
       }
     )}
   />
@@ -87,7 +87,7 @@ export const DarkColours = () => (
 export const WithOnClick = () => (
   <AnnotationView
     {...defaultProps}
-    onClick={args => alert(JSON.stringify(args, null, 2))}
+    onClick={(args) => alert(JSON.stringify(args, null, 2))}
   />
 )
 
@@ -99,7 +99,7 @@ export const CustomColourPreset = () => (
       {
         PERSON: 'red',
         ORG: 'linear-gradient(90deg, #AA9CFC, #FC9CE7)',
-        LINK: 'pink'
+        LINK: 'pink',
       }
     )}
   />
@@ -114,10 +114,12 @@ export const ToolTipTypes = () => (
     {...defaultProps}
     markProps={{
       hideType: true,
-      getTooltipText: annotations => annotations.map(a => a.type).join(', ')
+      getTooltipText: (annotations) =>
+        annotations.map((a) => a.type).join(', '),
     }}
     inlineProps={{
-      getTooltipText: annotations => annotations.map(a => a.type).join(', ')
+      getTooltipText: (annotations) =>
+        annotations.map((a) => a.type).join(', '),
     }}
   />
 )
@@ -130,7 +132,7 @@ export const ContrastText = () => (
       {
         NORP: 'red',
         ORG: 'blue',
-        LINK: 'green'
+        LINK: 'green',
       }
     )}
     markProps={{ lightTextColor: '#fff', darkTextColor: '#000' }}
@@ -154,7 +156,7 @@ export const CustomMarkIcons = () => (
           default:
             return type
         }
-      }
+      },
     }}
   />
 )
@@ -176,40 +178,40 @@ export const ManyOverlappingMarks = () => (
       {
         offset: 0,
         length: 15,
-        type: 'type1'
+        type: 'type1',
       },
       {
         offset: 5,
         length: 10,
-        type: 'type2'
+        type: 'type2',
       },
       {
         offset: 5,
         length: 2,
-        type: 'type3'
+        type: 'type3',
       },
       {
         offset: 0,
         length: 4,
-        type: 'type4'
+        type: 'type4',
       },
       {
         offset: 8,
         length: 7,
-        type: 'type5'
-      }
+        type: 'type5',
+      },
     ]}
     typeColors={{
       type1: `#${palette('cb-Set1', 5)[0]}`,
       type2: `#${palette('cb-Set1', 5)[1]}`,
       type3: `#${palette('cb-Set1', 5)[2]}`,
       type4: `#${palette('cb-Set1', 5)[3]}`,
-      type5: `#${palette('cb-Set1', 5)[4]}`
+      type5: `#${palette('cb-Set1', 5)[4]}`,
     }}
     inlines={[]}
     markProps={{
       hideType: true,
-      fade: true
+      fade: true,
     }}
   />
 )

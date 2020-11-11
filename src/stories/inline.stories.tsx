@@ -5,19 +5,19 @@ import { defaultInlineColors } from '../util/colorPalette'
 
 export default {
   title: 'AnnotationInline',
-  decorators: [contained]
+  decorators: [contained],
 }
 
 const annotations = [
   {
     offset: 49,
     length: 10,
-    type: 'org'
-  }
+    type: 'org',
+  },
 ]
 
 const typeColors = {
-  org: `#${defaultInlineColors[0]}`
+  org: `#${defaultInlineColors[0]}`,
 }
 
 export const Default = () => (
@@ -29,7 +29,7 @@ export const Default = () => (
 const nestedColors = {
   dfg: `#${defaultInlineColors[0]}`,
   org: `#${defaultInlineColors[1]}`,
-  pol: `#${defaultInlineColors[2]}`
+  pol: `#${defaultInlineColors[2]}`,
 }
 
 export const nested = () => (
@@ -38,8 +38,8 @@ export const nested = () => (
       {
         offset: 49,
         length: 10,
-        type: 'dfg'
-      }
+        type: 'dfg',
+      },
     ]}
     typeColors={nestedColors}
   >
@@ -48,8 +48,8 @@ export const nested = () => (
         {
           offset: 49,
           length: 10,
-          type: 'org'
-        }
+          type: 'org',
+        },
       ]}
       typeColors={nestedColors}
     >
@@ -59,8 +59,8 @@ export const nested = () => (
           {
             offset: 49,
             length: 10,
-            type: 'pol'
-          }
+            type: 'pol',
+          },
         ]}
         typeColors={nestedColors}
       >
@@ -74,7 +74,7 @@ export const WithToolTip = () => (
   <AnnotationInline
     annotations={annotations}
     typeColors={typeColors}
-    getTooltipText={_ann => 'ORG'}
+    getTooltipText={(_ann) => 'ORG'}
   >
     Parliament
   </AnnotationInline>
@@ -87,23 +87,27 @@ export const nestedWithToolTip = () => (
         {
           offset: 49,
           length: 10,
-          type: 'dfg'
+          type: 'dfg',
         },
         {
           offset: 49,
           length: 10,
-          type: 'org'
-        }
+          type: 'org',
+        },
       ]}
       typeColors={nestedColors}
-      getTooltipText={annotations => annotations.map(a => a.type).join(', ')}
+      getTooltipText={(annotations) =>
+        annotations.map((a) => a.type).join(', ')
+      }
     >
       UK
     </AnnotationInline>
     <AnnotationInline
       annotations={[]}
       typeColors={nestedColors}
-      getTooltipText={annotations => annotations.map(a => a.type).join(', ')}
+      getTooltipText={(annotations) =>
+        annotations.map((a) => a.type).join(', ')
+      }
     >
       {' '}
     </AnnotationInline>
@@ -112,21 +116,23 @@ export const nestedWithToolTip = () => (
         {
           offset: 49,
           length: 10,
-          type: 'dfg'
+          type: 'dfg',
         },
         {
           offset: 49,
           length: 10,
-          type: 'org'
+          type: 'org',
         },
         {
           offset: 49,
           length: 10,
-          type: 'pol'
-        }
+          type: 'pol',
+        },
       ]}
       typeColors={nestedColors}
-      getTooltipText={annotations => annotations.map(a => a.type).join(', ')}
+      getTooltipText={(annotations) =>
+        annotations.map((a) => a.type).join(', ')
+      }
     >
       Parliament
     </AnnotationInline>
@@ -137,7 +143,7 @@ export const WithAction = () => (
   <AnnotationInline
     annotations={annotations}
     typeColors={typeColors}
-    onClick={ann => alert(ann)}
+    onClick={(ann) => alert(ann)}
   >
     Parliament
   </AnnotationInline>

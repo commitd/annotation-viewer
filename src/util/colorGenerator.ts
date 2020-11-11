@@ -35,7 +35,7 @@ const getTypeColor = (
   if (tinycolor2(background).isValid()) {
     return tinycolor2(
       Object.assign(tinycolor2(background).toRgb(), {
-        a: options.opacity == null ? 1 : options.opacity
+        a: options.opacity == null ? 1 : options.opacity,
       })
     ).toRgbString()
   } else {
@@ -74,10 +74,10 @@ export function createTypeColors(
 ): { [key: string]: BackgroundProperty<string> } {
   const typeColors = getTypeColors(types, markColors, {
     colorPresets,
-    opacity: 0.7
+    opacity: 0.7,
   })
   const inlineTypeColors = getTypeColors(inlineTypes, inlineColors, {
-    colorPresets
+    colorPresets,
   })
 
   return Object.assign({}, typeColors, inlineTypeColors)
@@ -95,8 +95,8 @@ export function createAnnotationColors(
   /** Optional. An object mapping an mark/inline type to a particular background colour. Will otherwise choose a colour from `markColours` automatically. */
   colorPresets?: { [index: string]: string }
 ): { [key: string]: BackgroundProperty<string> } {
-  const markTypes = Array.from(new Set(marks.map(m => m.type)))
-  const inlineTypes = Array.from(new Set(inlines.map(i => i.type)))
+  const markTypes = Array.from(new Set(marks.map((m) => m.type)))
+  const inlineTypes = Array.from(new Set(inlines.map((i) => i.type)))
 
   return createTypeColors(
     markTypes,

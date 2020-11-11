@@ -12,11 +12,11 @@ interface AnnotationViewerProps extends AnnotationViewProps {
   legend?: Layout
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   ['legend-top']: { margin: `${theme.spacing(2)}px 0` },
   ['legend-bottom']: { margin: `${theme.spacing(2)}px 0` },
   ['legend-left']: { margin: `0 ${theme.spacing(2)}px ` },
-  ['legend-right']: { margin: `0 ${theme.spacing(2)}px` }
+  ['legend-right']: { margin: `0 ${theme.spacing(2)}px` },
 }))
 
 const layout = (
@@ -57,7 +57,7 @@ export const AnnotationViewer: React.FC<AnnotationViewerProps> = ({
     filteredInlines,
     selectedTypes,
     toggleType,
-    typeColors
+    typeColors,
   } = useAnnotation(marks, inlines, typeColorOverrides)
 
   const { flexDirection, legendDirection } = layout(legend)

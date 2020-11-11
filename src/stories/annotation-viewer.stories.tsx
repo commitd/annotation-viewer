@@ -6,7 +6,7 @@ import { defaultProps, overlappingInlines, overlappingMarks } from './examples'
 
 export default {
   title: 'AnnotationViewer',
-  decorators: [contained]
+  decorators: [contained],
 }
 
 export const Default = () => (
@@ -16,21 +16,21 @@ export const Default = () => (
       {
         offset: 4,
         length: 7,
-        type: 'NORP'
+        type: 'NORP',
       },
 
       {
         offset: 49,
         length: 10,
-        type: 'ORG'
-      }
+        type: 'ORG',
+      },
     ]}
     inlines={[
       {
         offset: 4,
         length: 55,
-        type: 'LINK'
-      }
+        type: 'LINK',
+      },
     ]}
   />
 )
@@ -53,7 +53,7 @@ export const CustomMarkIcons = () => (
     {...defaultProps}
     typographyProps={{ variant: 'h5' }}
     markProps={{
-      renderType: type => {
+      renderType: (type) => {
         switch (type) {
           case 'PERSON':
             return <Icons.Person fontSize="inherit" />
@@ -66,7 +66,7 @@ export const CustomMarkIcons = () => (
           default:
             return type
         }
-      }
+      },
     }}
   />
 )

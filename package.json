@@ -1,28 +1,36 @@
 {
+  "version": "0.1.0",
   "name": "@committed/annotation-viewer",
-  "version": "0.0.1",
   "description": "Annotation Viewer",
+  "author": "Committed",
   "license": "MIT",
+  "private": false,
   "repository": "git://github.com/commitd/annotation-viewer",
   "main": "dist/index.js",
-  "module": "dist/annotator-viewer2.esm.js",
   "typings": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
   "scripts": {
+    "clean": "shx rm -rf dist",
     "start": "tsdx watch",
     "build": "tsdx build",
-    "test": "tsdx test --env=jsdom",
+    "test": "tsdx test --passWithNoTests",
     "lint": "tsdx lint",
-    "storybook": "start-storybook -p 9001 -c .storybook",
+    "prepare": "tsdx build",
+    "size": "size-limit",
+    "analyze": "size-limit --why",
+    "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
+    "format": "prettier --write '**/{src,test,stories}/**/{*.js,*.ts,*.tsx,*.json,*.md,*.mdx}' example/index.tsx",
     "deploy-storybook": "storybook-to-ghpages",
-    "format": "prettier --write '{**/*.js,*.ts,*.tsx,*.json,*.md,*.mdx}'",
-    "format-check": "prettier --check '{**/*.js,*.ts,*.tsx,*.json,*.md,*.mdx}'"
+    "generate": "plop --plopfile ./generators/plopfile.js"
   },
   "dependencies": {
     "@types/randomcolor": "^0.5.3",
@@ -39,44 +47,58 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged --pattern \"**/*.*(ts|tsx)\""
+      "pre-commit": "pretty-quick --staged --pattern '**/*.*(ts|tsx|json|md)'; tsdx lint",
+      "pre-push": "yarn test && yarn build"
     }
   },
   "prettier": {
     "semi": false,
     "singleQuote": true
   },
+  "module": "dist/annotation-viewer.esm.js",
+  "size-limit": [
+    {
+      "path": "dist/annotation-viewer.cjs.production.min.js",
+      "limit": "10 KB"
+    },
+    {
+      "path": "dist/annotation-viewer.esm.js",
+      "limit": "10 KB"
+    }
+  ],
   "devDependencies": {
+    "@babel/core": "^7.12.3",
     "@committed/components": "^3.2.0",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
-    "@storybook/addon-a11y": "^5.3.19",
-    "@storybook/addon-actions": "^5.3.19",
-    "@storybook/addon-docs": "^5.3.19",
-    "@storybook/addon-info": "^5.3.19",
-    "@storybook/addon-knobs": "^5.3.19",
-    "@storybook/addon-links": "^5.3.19",
-    "@storybook/addon-storysource": "^5.3.19",
-    "@storybook/addons": "^5.3.19",
-    "@storybook/preset-typescript": "^3.0.0",
-    "@storybook/react": "^5.3.19",
-    "@storybook/storybook-deployer": "^2.8.6",
-    "@types/jest": "^24.0.18",
-    "@types/react": "^16.9.2",
-    "@types/react-dom": "^16.9.0",
-    "babel-loader": "^8.0.6",
-    "fork-ts-checker-webpack-plugin": "^5.0.7",
-    "husky": "^3.0.5",
-    "prettier": "^1.18.2",
-    "pretty-quick": "^1.11.1",
-    "randomcolor": "^0.5.4",
-    "react": "^16.9.0",
-    "react-docgen-typescript-loader": "^3.2.0",
-    "react-dom": "^16.9.0",
-    "storybook-dark-mode": "^0.6.1",
-    "ts-loader": "^8.0.1",
-    "tsdx": "^0.13.2",
-    "tslib": "^2.0.0",
-    "typescript": "^3.9.7"
+    "@size-limit/preset-small-lib": "^4.6.2",
+    "@storybook/addon-essentials": "^6.0.27",
+    "@storybook/addon-info": "^5.3.21",
+    "@storybook/addon-links": "^6.0.27",
+    "@storybook/addons": "^6.0.27",
+    "@storybook/react": "^6.0.27",
+    "@storybook/storybook-deployer": "^2.8.7",
+    "@testing-library/jest-dom": "^5.11.5",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/react-hooks": "^3.4.2",
+    "@testing-library/user-event": "^12.1.10",
+    "@types/react": "^16.9.53",
+    "@types/react-dom": "^16.9.8",
+    "babel-loader": "^8.1.0",
+    "eslint-config-prettier": "^6.14.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-security": "^1.4.0",
+    "husky": "^4.3.0",
+    "plop": "^2.7.4",
+    "prettier": "^2.1.2",
+    "pretty-quick": "^3.1.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-is": "^17.0.1",
+    "shx": "^0.3.2",
+    "size-limit": "^4.6.2",
+    "tsdx": "^0.14.1",
+    "tslib": "^2.0.3",
+    "typescript": "^4.0.3"
   }
 }

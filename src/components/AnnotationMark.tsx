@@ -6,7 +6,7 @@ import tinycolor from 'tinycolor2'
 import { Annotation } from '../types'
 import { getTypeColors } from '../util/colorGenerator'
 import { defaultMarkColors } from '../util/colorPalette'
-import { AnnotationProps, AnnotationConfig } from 'types'
+import { AnnotationProps, AnnotationConfig } from '../types'
 
 export interface AnnotationMarkConfig extends AnnotationConfig {
   /** By default the annotation type is shown alongside the mark set false to disable */
@@ -36,7 +36,7 @@ export interface AnnotationMarkProps
   included?: boolean
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'inline-block',
     cursor: (props: AnnotationMarkProps) =>
@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
     transitionProperty: 'background, background-color, padding',
     transitionDuration: '0.3s',
     transitionTimingFunction: 'ease-out',
-    borderRadius: theme.shape.borderRadius
+    borderRadius: theme.shape.borderRadius,
   },
   type: {
     padding: `${theme.spacing(0)}px ${theme.spacing(1)}px`,
@@ -65,8 +65,8 @@ const useStyles = makeStyles(theme => ({
       theme.palette.type === 'light'
         ? theme.palette.text.primary
         : theme.palette.text.hint,
-    userSelect: 'none'
-  }
+    userSelect: 'none',
+  },
 }))
 
 const getBorderStyles = (
@@ -88,7 +88,7 @@ const getBorderStyles = (
     borderTopLeftRadius: borderRadiusLeft,
     borderTopRightRadius: borderRadiusRight,
     borderBottomLeftRadius: borderRadiusLeft,
-    borderBottomRightRadius: borderRadiusRight
+    borderBottomRightRadius: borderRadiusRight,
   }
 }
 
@@ -103,9 +103,10 @@ const getBackground = (
   const bg =
     marks.length > 1
       ? `repeating-linear-gradient(135deg, ${marks
-          .map(m => typeColors[m.type])
+          .map((m) => typeColors[m.type])
           .map(
-            col => `${col} ${ongoing}px, ${col} ${(ongoing += stripeLength)}px`
+            (col) =>
+              `${col} ${ongoing}px, ${col} ${(ongoing += stripeLength)}px`
           )
           .join(', ')})`
       : typeColors[type]
@@ -120,14 +121,14 @@ const getBackground = (
  *
  * You can optionally include the type inline and provide tooltip, onClick and multiple render options
  */
-export const AnnotationMark: React.FC<AnnotationMarkProps> = props => {
+export const AnnotationMark: React.FC<AnnotationMarkProps> = (props) => {
   const {
     children,
     className,
     annotations,
     onClick,
     typeColors = getTypeColors(
-      annotations.map(m => m.type),
+      annotations.map((m) => m.type),
       defaultMarkColors,
       { opacity: 0.7 }
     ),
@@ -137,29 +138,27 @@ export const AnnotationMark: React.FC<AnnotationMarkProps> = props => {
     fade = false,
     lightTextColor = 'inherit',
     darkTextColor = 'inherit',
-    renderType = type => type,
+    renderType = (type) => type,
     getTooltipText,
-    included = true
+    included = true,
   } = props
   const classes = useStyles(props)
 
   if (annotations.length === 0) {
     return <span>{children}</span>
   }
-  const type = annotations.map(m => m.type).join(', ')
+  const type = annotations.map((m) => m.type).join(', ')
 
   const backgroundColor = getBackground(annotations, type, typeColors, fade)
   const background = included ? backgroundColor : 'transparent'
   const color = tinycolor(background).isDark() ? lightTextColor : darkTextColor
 
-  const borderColor = tinycolor(backgroundColor)
-    .darken(10)
-    .toRgbString()
+  const borderColor = tinycolor(backgroundColor).darken(10).toRgbString()
 
   const style = Object.assign(
     {
       background,
-      color
+      color,
     },
     getBorderStyles(borderColor, hideLeftBorder, hideRightBorder)
   )
@@ -168,7 +167,7 @@ export const AnnotationMark: React.FC<AnnotationMarkProps> = props => {
     <span
       className={clsx(classes.root, className)}
       style={style}
-      onClick={e => {
+      onClick={(e) => {
         onClick && onClick(annotations)
         onClick && e.stopPropagation()
       }}
