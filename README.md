@@ -11,12 +11,6 @@
 yarn add @committed/annotation-viewer
 ```
 
-Peer dependencies
-
-```bash
-yarn add @material-ui/core@4.x
-```
-
 ## Usage
 
 ```tsx
@@ -87,4 +81,4 @@ yarn start
 
 ## License
 
-[MIT](/LICENSE) - © Committed Software 2020 https://committed.io
+[MIT](/LICENSE) - © Committed Software 2021 https://committed.io
