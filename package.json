@@ -41,7 +41,6 @@
     "tinycolor2": "^1.4.1"
   },
   "peerDependencies": {
-    "@committed/components": "^3.2.0",
     "@material-ui/core": "^4.11.0",
     "react": ">=16"
   },
@@ -68,7 +67,6 @@
   ],
   "devDependencies": {
     "@babel/core": "^7.12.3",
-    "@committed/components": "^3.2.0",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
     "@size-limit/preset-small-lib": "^4.6.2",

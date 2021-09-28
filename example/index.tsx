@@ -1,12 +1,14 @@
 import 'react-app-polyfill/ie11'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import { ThemeProvider } from '@committed/components'
+import { createMuiTheme, ThemeProvider } from '@material-ui/core'
 import { AnnotationViewer } from '../dist'
+
+const theme = createMuiTheme()
 
 const App = () => {
   return (
-    <ThemeProvider>
+    <ThemeProvider theme={theme}>
       <AnnotationViewer
         text="The British people are represented by members of Parliament"
         marks={[

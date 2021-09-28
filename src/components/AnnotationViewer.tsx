@@ -1,9 +1,9 @@
-import { Flex, Card, makeStyles } from '@committed/components'
 import { FlexDirectionProperty } from 'csstype'
 import React from 'react'
 import { AnnotationView, AnnotationViewProps } from './AnnotationView'
 import { AnnotationLegend } from './AnnotationLegend'
 import { useAnnotation } from './useAnnotations'
+import { Box, Card, makeStyles } from '@material-ui/core'
 
 export type Layout = 'none' | 'top' | 'bottom' | 'left' | 'right'
 
@@ -63,7 +63,7 @@ export const AnnotationViewer: React.FC<AnnotationViewerProps> = ({
   const { flexDirection, legendDirection } = layout(legend)
 
   return (
-    <Flex flexDirection={flexDirection}>
+    <Box display="flex" flexDirection={flexDirection}>
       {legend !== 'none' && (
         // @ts-ignore
         <div className={classes[`legend-${legend}`]}>
@@ -77,15 +77,17 @@ export const AnnotationViewer: React.FC<AnnotationViewerProps> = ({
           />
         </div>
       )}
-      <Card p={3}>
-        <AnnotationView
-          {...ViewerProps}
-          marks={filteredMarks}
-          inlines={filteredInlines}
-          typeColors={typeColors}
-          typographyProps={typographyProps}
-        />
-      </Card>
-    </Flex>
+      <Box p={3}>
+        <Card>
+          <AnnotationView
+            {...ViewerProps}
+            marks={filteredMarks}
+            inlines={filteredInlines}
+            typeColors={typeColors}
+            typographyProps={typographyProps}
+          />
+        </Card>
+      </Box>
+    </Box>
   )
 }

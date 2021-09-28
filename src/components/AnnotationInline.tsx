@@ -1,4 +1,4 @@
-import { makeStyles, Tooltip } from '@committed/components'
+import { makeStyles, Tooltip } from '@material-ui/core'
 import clsx from 'clsx'
 import React from 'react'
 import { AnnotationConfig, AnnotationProps } from '../types'

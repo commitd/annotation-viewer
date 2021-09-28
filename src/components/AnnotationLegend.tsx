@@ -1,4 +1,4 @@
-import { Box, Flex, Span } from '@committed/components'
+import { Box, BoxProps } from '@material-ui/core'
 import { BackgroundProperty, FlexDirectionProperty } from 'csstype'
 import React from 'react'
 import { AnnotationMark } from './AnnotationMark'
@@ -29,7 +29,7 @@ export interface AnnotationLegendProps {
   /** The direction to layout the types */
   layout?: FlexDirectionProperty
   /** Optional. Customises the styling of the text. Applied to all text regardless of annotations. See https://material-ui.com/api/typography/ for a full list of options. */
-  typographyProps?: React.ComponentProps<typeof Span>
+  typographyProps?: BoxProps
 }
 
 /**
@@ -46,8 +46,8 @@ export const AnnotationLegend: React.FC<AnnotationLegendProps> = ({
   layout = 'row',
 }) => {
   return (
-    <Span {...typographyProps}>
-      <Flex flexDirection={layout} flexWrap="wrap">
+    <Box {...typographyProps}>
+      <Box display="flex" flexDirection={layout} flexWrap="wrap">
         {Object.keys(typeColors).map((t) => {
           const onClick = () => toggleType(t)
           return (
@@ -66,7 +66,7 @@ export const AnnotationLegend: React.FC<AnnotationLegendProps> = ({
             </Box>
           )
         })}
-      </Flex>
-    </Span>
+      </Box>
+    </Box>
   )
 }

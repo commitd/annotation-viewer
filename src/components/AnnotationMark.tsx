@@ -1,12 +1,12 @@
-import { makeStyles, Tooltip } from '@committed/components'
 import clsx from 'clsx'
-import { BackgroundProperty, ColorProperty } from 'csstype'
+
 import React from 'react'
 import tinycolor from 'tinycolor2'
 import { Annotation } from '../types'
 import { getTypeColors } from '../util/colorGenerator'
 import { defaultMarkColors } from '../util/colorPalette'
 import { AnnotationProps, AnnotationConfig } from '../types'
+import { makeStyles, Tooltip } from '@material-ui/core'
 
 export interface AnnotationMarkConfig extends AnnotationConfig {
   /** By default the annotation type is shown alongside the mark set false to disable */
@@ -18,11 +18,11 @@ export interface AnnotationMarkConfig extends AnnotationConfig {
   /**
    * Contrast text color when background is dark, defaults to 'inherit'
    */
-  lightTextColor?: ColorProperty
+  lightTextColor?: string
   /**
    * Contrast text color when background is light,, defaults to 'inherit'
    */
-  darkTextColor?: ColorProperty
+  darkTextColor?: string
 }
 
 export interface AnnotationMarkProps
@@ -95,7 +95,7 @@ const getBorderStyles = (
 const getBackground = (
   marks: Annotation[],
   type: string,
-  typeColors: { [index: string]: BackgroundProperty<string> },
+  typeColors: { [index: string]: string },
   fade: boolean
 ) => {
   let ongoing = 0
