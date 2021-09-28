@@ -1,4 +1,4 @@
-import { Person, LocationCity, Language, EventNote } from '@material-ui/icons'
+import { Person, LocationCity, Language, EventNote } from '@mui/icons-material'
 import React from 'react'
 import { AnnotationViewer } from '../components/AnnotationViewer'
 import { contained } from './decorators'

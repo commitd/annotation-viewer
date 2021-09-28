@@ -1,4 +1,5 @@
-import { Box, makeStyles, TypographyProps } from '@material-ui/core'
+import { Box, TypographyProps } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
 import React from 'react'
 import { Annotation } from '../types'
 import { getEnd, isIntersecting } from '../util/spans'

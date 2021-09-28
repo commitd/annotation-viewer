@@ -1,4 +1,4 @@
-import { Person, LocationCity, Language, EventNote } from '@material-ui/icons'
+import { Person, LocationCity, Language, EventNote } from '@mui/icons-material'
 // @ts-ignore
 import palette from 'google-palette'
 import React from 'react'

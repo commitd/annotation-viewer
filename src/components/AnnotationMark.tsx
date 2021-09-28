@@ -1,12 +1,12 @@
 import clsx from 'clsx'
-
 import React from 'react'
 import tinycolor from 'tinycolor2'
 import { Annotation } from '../types'
 import { getTypeColors } from '../util/colorGenerator'
 import { defaultMarkColors } from '../util/colorPalette'
 import { AnnotationProps, AnnotationConfig } from '../types'
-import { makeStyles, Tooltip } from '@material-ui/core'
+import { Tooltip } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
 
 export interface AnnotationMarkConfig extends AnnotationConfig {
   /** By default the annotation type is shown alongside the mark set false to disable */
@@ -36,7 +36,7 @@ export interface AnnotationMarkProps
   included?: boolean
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     display: 'inline-block',
     cursor: (props: AnnotationMarkProps) =>
@@ -47,24 +47,18 @@ const useStyles = makeStyles((theme) => ({
     transitionProperty: 'background, background-color, padding',
     transitionDuration: '0.3s',
     transitionTimingFunction: 'ease-out',
-    borderRadius: theme.shape.borderRadius,
+    borderRadius: 4,
   },
   type: {
-    padding: `${theme.spacing(0)}px ${theme.spacing(1)}px`,
-    marginLeft: theme.spacing(1),
+    padding: `0px 8px`,
+    marginLeft: 8,
     fontSize: '0.5em',
     display: 'inline-block',
     verticalAlign: 'middle',
     opacity: 0.8,
-    borderRadius: theme.shape.borderRadius,
-    background:
-      theme.palette.type === 'light'
-        ? theme.palette.background.default
-        : theme.palette.action.active,
-    color:
-      theme.palette.type === 'light'
-        ? theme.palette.text.primary
-        : theme.palette.text.hint,
+    borderRadius: 4,
+    background: '#fafafa',
+    color: 'rgba(0, 0, 0, 0.87)',
     userSelect: 'none',
   },
 }))

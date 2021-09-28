@@ -2,7 +2,8 @@ import React from 'react'
 import { AnnotationView, AnnotationViewProps } from './AnnotationView'
 import { AnnotationLegend } from './AnnotationLegend'
 import { useAnnotation } from './useAnnotations'
-import { Box, Card, makeStyles } from '@material-ui/core'
+import { Box, BoxProps, Card } from '@mui/material'
+import makeStyles from '@mui/styles/makeStyles'
 
 export type Layout = 'none' | 'top' | 'bottom' | 'left' | 'right'
 
@@ -11,18 +12,18 @@ interface AnnotationViewerProps extends AnnotationViewProps {
   legend?: Layout
 }
 
-const useStyles = makeStyles((theme) => ({
-  ['legend-top']: { margin: `${theme.spacing(2)}px 0` },
-  ['legend-bottom']: { margin: `${theme.spacing(2)}px 0` },
-  ['legend-left']: { margin: `0 ${theme.spacing(2)}px ` },
-  ['legend-right']: { margin: `0 ${theme.spacing(2)}px` },
+const useStyles = makeStyles(() => ({
+  ['legend-top']: { margin: `16 0` },
+  ['legend-bottom']: { margin: `16 0` },
+  ['legend-left']: { margin: `0 16 ` },
+  ['legend-right']: { margin: `0 16` },
 }))
 
 const layout = (
   legend: Layout
 ): {
-  flexDirection: string
-  legendDirection: string
+  flexDirection: BoxProps['flexDirection']
+  legendDirection: BoxProps['flexDirection']
 } => {
   switch (legend) {
     case 'bottom':

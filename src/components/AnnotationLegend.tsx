@@ -1,4 +1,4 @@
-import { Box, BoxProps } from '@material-ui/core'
+import { Box, BoxProps } from '@mui/material'
 import React from 'react'
 import { AnnotationMark } from './AnnotationMark'
 
@@ -26,7 +26,7 @@ export interface AnnotationLegendProps {
    */
   fadeMarks?: boolean
   /** The direction to layout the types */
-  layout?: string
+  layout?: BoxProps['flexDirection']
   /** Optional. Customises the styling of the text. Applied to all text regardless of annotations. See https://material-ui.com/api/typography/ for a full list of options. */
   typographyProps?: BoxProps
 }
