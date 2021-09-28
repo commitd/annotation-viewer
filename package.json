@@ -42,7 +42,7 @@
   },
   "peerDependencies": {
     "@material-ui/core": "^4.11.0",
-    "react": ">=16"
+    "react": ">=17"
   },
   "husky": {
     "hooks": {
@@ -80,8 +80,8 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/react-hooks": "^3.4.2",
     "@testing-library/user-event": "^12.1.10",
-    "@types/react": "^16.9.53",
-    "@types/react-dom": "^16.9.8",
+    "@types/react": "^17.0.24",
+    "@types/react-dom": "^17.0.9",
     "babel-loader": "^8.1.0",
     "eslint-config-prettier": "^6.14.0",
     "eslint-plugin-prettier": "^3.1.4",
@@ -90,8 +90,8 @@
     "plop": "^2.7.4",
     "prettier": "^2.1.2",
     "pretty-quick": "^3.1.0",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "react-is": "^17.0.1",
     "shx": "^0.3.2",
     "size-limit": "^4.6.2",

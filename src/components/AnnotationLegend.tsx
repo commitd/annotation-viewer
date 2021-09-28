@@ -1,5 +1,4 @@
 import { Box, BoxProps } from '@material-ui/core'
-import { BackgroundProperty, FlexDirectionProperty } from 'csstype'
 import React from 'react'
 import { AnnotationMark } from './AnnotationMark'
 
@@ -21,13 +20,13 @@ export interface AnnotationLegendProps {
    *
    * Should be the same as those passed to the AnnotationView
    */
-  typeColors: { [index: string]: BackgroundProperty<string> }
+  typeColors: { [index: string]: string }
   /**
    * Set true to fade the coloring of the Marks
    */
   fadeMarks?: boolean
   /** The direction to layout the types */
-  layout?: FlexDirectionProperty
+  layout?: string
   /** Optional. Customises the styling of the text. Applied to all text regardless of annotations. See https://material-ui.com/api/typography/ for a full list of options. */
   typographyProps?: BoxProps
 }

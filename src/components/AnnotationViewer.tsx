@@ -1,4 +1,3 @@
-import { FlexDirectionProperty } from 'csstype'
 import React from 'react'
 import { AnnotationView, AnnotationViewProps } from './AnnotationView'
 import { AnnotationLegend } from './AnnotationLegend'
@@ -22,8 +21,8 @@ const useStyles = makeStyles((theme) => ({
 const layout = (
   legend: Layout
 ): {
-  flexDirection: FlexDirectionProperty
-  legendDirection: FlexDirectionProperty
+  flexDirection: string
+  legendDirection: string
 } => {
   switch (legend) {
     case 'bottom':

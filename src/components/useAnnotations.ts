@@ -1,6 +1,5 @@
 import { useState, useMemo } from 'react'
 import { Annotation } from '../types'
-import { BackgroundProperty } from 'csstype'
 import { getTypeColors } from '../util/colorGenerator'
 import { defaultMarkColors, defaultInlineColors } from '../util/colorPalette'
 
@@ -24,7 +23,7 @@ import { defaultMarkColors, defaultInlineColors } from '../util/colorPalette'
 export function useAnnotation(
   marks: Annotation[],
   inlines: Annotation[],
-  colorPresets?: { [key: string]: BackgroundProperty<string> }
+  colorPresets?: { [key: string]: string }
 ) {
   const markTypes = Array.from(new Set(marks.map((m) => m.type)))
   const inlineTypes = Array.from(new Set(inlines.map((i) => i.type)))

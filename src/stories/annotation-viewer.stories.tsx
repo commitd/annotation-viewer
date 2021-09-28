@@ -1,4 +1,4 @@
-import { Icons } from '@committed/components'
+import { Person, LocationCity, Language, EventNote } from '@material-ui/icons'
 import React from 'react'
 import { AnnotationViewer } from '../components/AnnotationViewer'
 import { contained } from './decorators'
@@ -56,13 +56,13 @@ export const CustomMarkIcons = () => (
       renderType: (type) => {
         switch (type) {
           case 'PERSON':
-            return <Icons.Person fontSize="inherit" />
+            return <Person fontSize="inherit" />
           case 'ORG':
-            return <Icons.LocationCity fontSize="inherit" />
+            return <LocationCity fontSize="inherit" />
           case 'NORP':
-            return <Icons.Language fontSize="inherit" />
+            return <Language fontSize="inherit" />
           case 'EVENT':
-            return <Icons.EventNote fontSize="inherit" />
+            return <EventNote fontSize="inherit" />
           default:
             return type
         }

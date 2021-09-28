@@ -1,5 +1,4 @@
-import { Box, BoxProps, makeStyles } from '@material-ui/core'
-import { BackgroundProperty } from 'csstype'
+import { Box, makeStyles, TypographyProps } from '@material-ui/core'
 import React from 'react'
 import { Annotation } from '../types'
 import { getEnd, isIntersecting } from '../util/spans'
@@ -21,9 +20,9 @@ export interface AnnotationViewProps {
     inlines: Annotation[]
   }) => void
   /** Optional. Colors of the types. An object mapping an mark/inline type to a particular background colour. */
-  typeColors?: { [index: string]: BackgroundProperty<string> }
+  typeColors?: { [index: string]: string }
   /** Optional. Customises the styling of the text. Applied to all text regardless of annotations. See https://material-ui.com/api/Span/ for a full list of options. */
-  typographyProps?: BoxProps
+  typographyProps?: TypographyProps
   /** Addition props provided to configure the marks */
   markProps?: AnnotationMarkConfig
   /** Addition props provided to the marks */
