@@ -2,8 +2,6 @@ import React from 'react'
 import { AnnotationView, AnnotationViewProps } from './AnnotationView'
 import { AnnotationLegend } from './AnnotationLegend'
 import { useAnnotation } from './useAnnotations'
-import { Box, BoxProps, Card } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
 
 export type Layout = 'none' | 'top' | 'bottom' | 'left' | 'right'
 
@@ -12,18 +10,18 @@ interface AnnotationViewerProps extends AnnotationViewProps {
   legend?: Layout
 }
 
-const useStyles = makeStyles(() => ({
-  ['legend-top']: { margin: `16 0` },
-  ['legend-bottom']: { margin: `16 0` },
-  ['legend-left']: { margin: `0 16 ` },
-  ['legend-right']: { margin: `0 16` },
-}))
+const legendStyles = {
+  ['top']: { margin: `16 0` },
+  ['bottom']: { margin: `16 0` },
+  ['left']: { margin: `0 16 ` },
+  ['right']: { margin: `0 16` },
+}
 
 const layout = (
   legend: Layout
 ): {
-  flexDirection: BoxProps['flexDirection']
-  legendDirection: BoxProps['flexDirection']
+  flexDirection: 'column' | 'column-reverse' | 'row' | 'row-reverse'
+  legendDirection: 'column' | 'column-reverse' | 'row' | 'row-reverse'
 } => {
   switch (legend) {
     case 'bottom':
@@ -51,7 +49,6 @@ export const AnnotationViewer: React.FC<AnnotationViewerProps> = ({
   legend = 'top',
   ...ViewerProps
 }) => {
-  const classes = useStyles()
   const {
     filteredMarks,
     filteredInlines,
@@ -63,22 +60,25 @@ export const AnnotationViewer: React.FC<AnnotationViewerProps> = ({
   const { flexDirection, legendDirection } = layout(legend)
 
   return (
-    <Box display="flex" flexDirection={flexDirection}>
+    <div
+      css={{
+        display: 'flex',
+        flexDirection: flexDirection,
+      }}
+    >
       {legend !== 'none' && (
-        // @ts-ignore
-        <div className={classes[`legend-${legend}`]}>
+        <div css={legendStyles[legend]}>
           <AnnotationLegend
             typeColors={typeColors}
             selectedTypes={selectedTypes}
             fadeMarks={ViewerProps.markProps?.fade}
             toggleType={toggleType}
-            typographyProps={typographyProps}
             layout={legendDirection}
           />
         </div>
       )}
-      <Box p={3}>
-        <Card>
+      <div css={{ padding: 24 }}>
+        <div css={{ padding: 24, backgroundColor: '#fff' }}>
           <AnnotationView
             {...ViewerProps}
             marks={filteredMarks}
@@ -86,8 +86,8 @@ export const AnnotationViewer: React.FC<AnnotationViewerProps> = ({
             typeColors={typeColors}
             typographyProps={typographyProps}
           />
-        </Card>
-      </Box>
-    </Box>
+        </div>
+      </div>
+    </div>
   )
 }

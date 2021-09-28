@@ -1,8 +1,5 @@
 import React from 'react'
-import { Container } from '@mui/material'
 
 export const contained = (story: any) => (
-  <Container style={{ marginTop: 24 }} maxWidth="lg">
-    {story()}
-  </Container>
+  <div css={{ margin: '0 auto', marginTop: 24, maxWidth: 1000 }}>{story()}</div>
 )

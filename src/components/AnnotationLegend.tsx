@@ -1,4 +1,4 @@
-import { Box, BoxProps } from '@mui/material'
+import css from '@emotion/css'
 import React from 'react'
 import { AnnotationMark } from './AnnotationMark'
 
@@ -26,9 +26,9 @@ export interface AnnotationLegendProps {
    */
   fadeMarks?: boolean
   /** The direction to layout the types */
-  layout?: BoxProps['flexDirection']
+  layout?: 'column' | 'column-reverse' | 'row' | 'row-reverse'
   /** Optional. Customises the styling of the text. Applied to all text regardless of annotations. See https://material-ui.com/api/typography/ for a full list of options. */
-  typographyProps?: BoxProps
+  typographyProps?: Record<string, any>
 }
 
 /**
@@ -45,12 +45,20 @@ export const AnnotationLegend: React.FC<AnnotationLegendProps> = ({
   layout = 'row',
 }) => {
   return (
-    <Box {...typographyProps}>
-      <Box display="flex" flexDirection={layout} flexWrap="wrap">
+    <div {...typographyProps}>
+      <div
+        css={css({
+          margin: 8,
+          display: 'flex',
+          // @ts-ignore
+          flexDirection: layout,
+          flexWrap: 'wrap',
+        })}
+      >
         {Object.keys(typeColors).map((t) => {
           const onClick = () => toggleType(t)
           return (
-            <Box key={t} m={1} onClick={onClick}>
+            <div key={t} css={css({ margin: 8 })} onClick={onClick}>
               <AnnotationMark
                 annotations={[{ length: t.length, offset: 0, type: t }]}
                 hideType={true}
@@ -62,10 +70,10 @@ export const AnnotationLegend: React.FC<AnnotationLegendProps> = ({
               >
                 {t}
               </AnnotationMark>
-            </Box>
+            </div>
           )
         })}
-      </Box>
-    </Box>
+      </div>
+    </div>
   )
 }

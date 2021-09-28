@@ -1,12 +1,9 @@
-import clsx from 'clsx'
 import React from 'react'
 import tinycolor from 'tinycolor2'
 import { Annotation } from '../types'
 import { getTypeColors } from '../util/colorGenerator'
 import { defaultMarkColors } from '../util/colorPalette'
 import { AnnotationProps, AnnotationConfig } from '../types'
-import { Tooltip } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
 
 export interface AnnotationMarkConfig extends AnnotationConfig {
   /** By default the annotation type is shown alongside the mark set false to disable */
@@ -35,33 +32,6 @@ export interface AnnotationMarkProps
   /** Flag for use in legend to indicate type is included or not. */
   included?: boolean
 }
-
-const useStyles = makeStyles(() => ({
-  root: {
-    display: 'inline-block',
-    cursor: (props: AnnotationMarkProps) =>
-      props.onClick == null ? 'inherit' : 'pointer',
-    lineHeight: 1.75,
-    // don't break across multiple lines,
-    ['-webkit-box-decoration-break']: 'clone',
-    transitionProperty: 'background, background-color, padding',
-    transitionDuration: '0.3s',
-    transitionTimingFunction: 'ease-out',
-    borderRadius: 4,
-  },
-  type: {
-    padding: `0px 8px`,
-    marginLeft: 8,
-    fontSize: '0.5em',
-    display: 'inline-block',
-    verticalAlign: 'middle',
-    opacity: 0.8,
-    borderRadius: 4,
-    background: '#fafafa',
-    color: 'rgba(0, 0, 0, 0.87)',
-    userSelect: 'none',
-  },
-}))
 
 const getBorderStyles = (
   borderColor: string,
@@ -133,10 +103,8 @@ export const AnnotationMark: React.FC<AnnotationMarkProps> = (props) => {
     lightTextColor = 'inherit',
     darkTextColor = 'inherit',
     renderType = (type) => type,
-    getTooltipText,
     included = true,
   } = props
-  const classes = useStyles(props)
 
   if (annotations.length === 0) {
     return <span>{children}</span>
@@ -157,9 +125,20 @@ export const AnnotationMark: React.FC<AnnotationMarkProps> = (props) => {
     getBorderStyles(borderColor, hideLeftBorder, hideRightBorder)
   )
 
-  const content = (
+  return (
     <span
-      className={clsx(classes.root, className)}
+      css={{
+        display: 'inline-block',
+        cursor: onClick == null ? 'inherit' : 'pointer',
+        lineHeight: 1.75,
+        // don't break across multiple lines,
+        ['-webkit-box-decoration-break']: 'clone',
+        transitionProperty: 'background, background-color, padding',
+        transitionDuration: '0.3s',
+        transitionTimingFunction: 'ease-out',
+        borderRadius: 4,
+      }}
+      className={className}
       style={style}
       onClick={(e) => {
         onClick && onClick(annotations)
@@ -167,10 +146,24 @@ export const AnnotationMark: React.FC<AnnotationMarkProps> = (props) => {
       }}
     >
       {children}
-      {!hideType && <span className={classes.type}>{renderType(type)}</span>}
+      {!hideType && (
+        <span
+          css={{
+            padding: `0px 8px`,
+            marginLeft: 8,
+            fontSize: '0.5em',
+            display: 'inline-block',
+            verticalAlign: 'middle',
+            opacity: 0.8,
+            borderRadius: 4,
+            background: '#fafafa',
+            color: 'rgba(0, 0, 0, 0.87)',
+            userSelect: 'none',
+          }}
+        >
+          {renderType(type)}
+        </span>
+      )}
     </span>
   )
-
-  const tooltip = getTooltipText && getTooltipText(annotations)
-  return !tooltip ? content : <Tooltip title={tooltip}>{content}</Tooltip>
 }

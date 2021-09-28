@@ -1,5 +1,3 @@
-import { Box, TypographyProps } from '@mui/material'
-import makeStyles from '@mui/styles/makeStyles'
 import React from 'react'
 import { Annotation } from '../types'
 import { getEnd, isIntersecting } from '../util/spans'
@@ -23,21 +21,12 @@ export interface AnnotationViewProps {
   /** Optional. Colors of the types. An object mapping an mark/inline type to a particular background colour. */
   typeColors?: { [index: string]: string }
   /** Optional. Customises the styling of the text. Applied to all text regardless of annotations. See https://material-ui.com/api/Span/ for a full list of options. */
-  typographyProps?: TypographyProps
+  typographyProps?: Record<string, any>
   /** Addition props provided to configure the marks */
   markProps?: AnnotationMarkConfig
   /** Addition props provided to the marks */
   inlineProps?: AnnotationInlineConfig
 }
-
-const useStyles = makeStyles({
-  text: {
-    wordSpacing: '0.05em',
-    display: 'inline-block',
-    lineHeight: 3,
-    whiteSpace: 'pre-wrap',
-  },
-})
 
 /**
  * The AnnotationView renders the given text with the given mark and inline annotations.
@@ -54,12 +43,19 @@ export const AnnotationView: React.FC<AnnotationViewProps> = ({
   markProps,
   inlineProps,
 }) => {
-  const classes = useStyles()
   const inlineSpanTokens = tokenise(text, inlines)
 
   return (
     <div>
-      <Box display="inline" {...typographyProps} className={classes.text}>
+      <div
+        css={{
+          wordSpacing: '0.05em',
+          display: 'inline-block',
+          lineHeight: 3,
+          whiteSpace: 'pre-wrap',
+          ...typographyProps,
+        }}
+      >
         {inlineSpanTokens.map((rt) => {
           const markTokens = tokenise(
             rt.text,
@@ -135,7 +131,7 @@ export const AnnotationView: React.FC<AnnotationViewProps> = ({
             </AnnotationInline>
           )
         })}
-      </Box>
+      </div>
     </div>
   )
 }
