@@ -10,13 +10,13 @@
 ## Install
 
 ```bash
-yarn add @committed/annotation-viewer @committed/components @material-ui/core
+yarn add @committed/annotation-viewer
 ```
 
 Peer dependencies
 
 ```bash
-yarn add  @committed/components @material-ui/core
+yarn add @material-ui/core@4.x
 ```
 
 ## Usage
