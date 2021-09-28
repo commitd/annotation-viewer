@@ -2,8 +2,6 @@
 
 > Annotation Viewer
 
-[![Committed Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fcommitted.software%2Fbadge)](https://committed.io)
-[![Build Status](https://drone.committed.software/api/badges/commitd/annotation-viewer/status.svg)](https://drone.committed.software/commitd/annotation-viewer)
 [![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@master/badge/badge-storybook.svg)](https://committed.software/annotation-viewer)
 ![](images/example.png)
 
