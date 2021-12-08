@@ -1,5 +1,3 @@
-import { Flex, Card, makeStyles } from '@committed/components'
-import { FlexDirectionProperty } from 'csstype'
 import React from 'react'
 import { AnnotationView, AnnotationViewProps } from './AnnotationView'
 import { AnnotationLegend } from './AnnotationLegend'
@@ -12,18 +10,18 @@ interface AnnotationViewerProps extends AnnotationViewProps {
   legend?: Layout
 }
 
-const useStyles = makeStyles((theme) => ({
-  ['legend-top']: { margin: `${theme.spacing(2)}px 0` },
-  ['legend-bottom']: { margin: `${theme.spacing(2)}px 0` },
-  ['legend-left']: { margin: `0 ${theme.spacing(2)}px ` },
-  ['legend-right']: { margin: `0 ${theme.spacing(2)}px` },
-}))
+const legendStyles = {
+  ['top']: { margin: `16 0` },
+  ['bottom']: { margin: `16 0` },
+  ['left']: { margin: `0 16 ` },
+  ['right']: { margin: `0 16` },
+}
 
 const layout = (
   legend: Layout
 ): {
-  flexDirection: FlexDirectionProperty
-  legendDirection: FlexDirectionProperty
+  flexDirection: 'column' | 'column-reverse' | 'row' | 'row-reverse'
+  legendDirection: 'column' | 'column-reverse' | 'row' | 'row-reverse'
 } => {
   switch (legend) {
     case 'bottom':
@@ -51,7 +49,6 @@ export const AnnotationViewer: React.FC<AnnotationViewerProps> = ({
   legend = 'top',
   ...ViewerProps
 }) => {
-  const classes = useStyles()
   const {
     filteredMarks,
     filteredInlines,
@@ -63,29 +60,34 @@ export const AnnotationViewer: React.FC<AnnotationViewerProps> = ({
   const { flexDirection, legendDirection } = layout(legend)
 
   return (
-    <Flex flexDirection={flexDirection}>
+    <div
+      css={{
+        display: 'flex',
+        flexDirection: flexDirection,
+      }}
+    >
       {legend !== 'none' && (
-        // @ts-ignore
-        <div className={classes[`legend-${legend}`]}>
+        <div css={legendStyles[legend]}>
           <AnnotationLegend
             typeColors={typeColors}
             selectedTypes={selectedTypes}
             fadeMarks={ViewerProps.markProps?.fade}
             toggleType={toggleType}
-            typographyProps={typographyProps}
             layout={legendDirection}
           />
         </div>
       )}
-      <Card p={3}>
-        <AnnotationView
-          {...ViewerProps}
-          marks={filteredMarks}
-          inlines={filteredInlines}
-          typeColors={typeColors}
-          typographyProps={typographyProps}
-        />
-      </Card>
-    </Flex>
+      <div css={{ padding: 24 }}>
+        <div css={{ padding: 24, backgroundColor: '#fff' }}>
+          <AnnotationView
+            {...ViewerProps}
+            marks={filteredMarks}
+            inlines={filteredInlines}
+            typeColors={typeColors}
+            typographyProps={typographyProps}
+          />
+        </div>
+      </div>
+    </div>
   )
 }

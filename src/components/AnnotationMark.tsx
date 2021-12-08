@@ -1,6 +1,3 @@
-import { makeStyles, Tooltip } from '@committed/components'
-import clsx from 'clsx'
-import { BackgroundProperty, ColorProperty } from 'csstype'
 import React from 'react'
 import tinycolor from 'tinycolor2'
 import { Annotation } from '../types'
@@ -18,11 +15,11 @@ export interface AnnotationMarkConfig extends AnnotationConfig {
   /**
    * Contrast text color when background is dark, defaults to 'inherit'
    */
-  lightTextColor?: ColorProperty
+  lightTextColor?: string
   /**
    * Contrast text color when background is light,, defaults to 'inherit'
    */
-  darkTextColor?: ColorProperty
+  darkTextColor?: string
 }
 
 export interface AnnotationMarkProps
@@ -35,39 +32,6 @@ export interface AnnotationMarkProps
   /** Flag for use in legend to indicate type is included or not. */
   included?: boolean
 }
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'inline-block',
-    cursor: (props: AnnotationMarkProps) =>
-      props.onClick == null ? 'inherit' : 'pointer',
-    lineHeight: 1.75,
-    // don't break across multiple lines,
-    ['-webkit-box-decoration-break']: 'clone',
-    transitionProperty: 'background, background-color, padding',
-    transitionDuration: '0.3s',
-    transitionTimingFunction: 'ease-out',
-    borderRadius: theme.shape.borderRadius,
-  },
-  type: {
-    padding: `${theme.spacing(0)}px ${theme.spacing(1)}px`,
-    marginLeft: theme.spacing(1),
-    fontSize: '0.5em',
-    display: 'inline-block',
-    verticalAlign: 'middle',
-    opacity: 0.8,
-    borderRadius: theme.shape.borderRadius,
-    background:
-      theme.palette.type === 'light'
-        ? theme.palette.background.default
-        : theme.palette.action.active,
-    color:
-      theme.palette.type === 'light'
-        ? theme.palette.text.primary
-        : theme.palette.text.hint,
-    userSelect: 'none',
-  },
-}))
 
 const getBorderStyles = (
   borderColor: string,
@@ -95,7 +59,7 @@ const getBorderStyles = (
 const getBackground = (
   marks: Annotation[],
   type: string,
-  typeColors: { [index: string]: BackgroundProperty<string> },
+  typeColors: { [index: string]: string },
   fade: boolean
 ) => {
   let ongoing = 0
@@ -139,10 +103,8 @@ export const AnnotationMark: React.FC<AnnotationMarkProps> = (props) => {
     lightTextColor = 'inherit',
     darkTextColor = 'inherit',
     renderType = (type) => type,
-    getTooltipText,
     included = true,
   } = props
-  const classes = useStyles(props)
 
   if (annotations.length === 0) {
     return <span>{children}</span>
@@ -163,9 +125,20 @@ export const AnnotationMark: React.FC<AnnotationMarkProps> = (props) => {
     getBorderStyles(borderColor, hideLeftBorder, hideRightBorder)
   )
 
-  const content = (
+  return (
     <span
-      className={clsx(classes.root, className)}
+      css={{
+        display: 'inline-block',
+        cursor: onClick == null ? 'inherit' : 'pointer',
+        lineHeight: 1.75,
+        // don't break across multiple lines,
+        ['-webkit-box-decoration-break']: 'clone',
+        transitionProperty: 'background, background-color, padding',
+        transitionDuration: '0.3s',
+        transitionTimingFunction: 'ease-out',
+        borderRadius: 4,
+      }}
+      className={className}
       style={style}
       onClick={(e) => {
         onClick && onClick(annotations)
@@ -173,10 +146,24 @@ export const AnnotationMark: React.FC<AnnotationMarkProps> = (props) => {
       }}
     >
       {children}
-      {!hideType && <span className={classes.type}>{renderType(type)}</span>}
+      {!hideType && (
+        <span
+          css={{
+            padding: `0px 8px`,
+            marginLeft: 8,
+            fontSize: '0.5em',
+            display: 'inline-block',
+            verticalAlign: 'middle',
+            opacity: 0.8,
+            borderRadius: 4,
+            background: '#fafafa',
+            color: 'rgba(0, 0, 0, 0.87)',
+            userSelect: 'none',
+          }}
+        >
+          {renderType(type)}
+        </span>
+      )}
     </span>
   )
-
-  const tooltip = getTooltipText && getTooltipText(annotations)
-  return !tooltip ? content : <Tooltip title={tooltip}>{content}</Tooltip>
 }

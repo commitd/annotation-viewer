@@ -1,4 +1,4 @@
-import { makeStyles, Tooltip } from '@committed/components'
+import { css } from '@emotion/react'
 import clsx from 'clsx'
 import React from 'react'
 import { AnnotationConfig, AnnotationProps } from '../types'
@@ -11,16 +11,6 @@ export interface AnnotationInlineConfig extends AnnotationConfig {}
 export interface AnnotationInlineProps
   extends AnnotationProps,
     AnnotationInlineConfig {}
-
-const useStyles = makeStyles({
-  root: {
-    // use inline to put border on wrapped text?
-    display: 'inline-block',
-    lineHeight: 2.2,
-    cursor: (props: Pick<AnnotationInlineProps, 'onClick'>) =>
-      props.onClick == null ? 'inherit' : 'pointer',
-  },
-})
 
 const SingleInline: React.FC<{
   inlineColor: string
@@ -56,10 +46,9 @@ export const AnnotationInline: React.FC<AnnotationInlineProps> = ({
     annotations.map((m) => m.type),
     defaultInlineColors
   ),
-  getTooltipText,
+
   onClick,
 }) => {
-  const classes = useStyles({ onClick })
   let content = <>{children}</>
   let lineHeight = 2.2
   annotations.forEach((i) => {
@@ -73,15 +62,19 @@ export const AnnotationInline: React.FC<AnnotationInlineProps> = ({
     )
   })
 
-  content = (
+  return (
     <span
-      className={clsx(classes.root, className)}
+      className={clsx(
+        css`
+          display: inline-block;
+          lineHeight: 2.2,
+          cursor: ${onClick == null ? 'inherit' : 'pointer'}
+        `,
+        className
+      )}
       onClick={() => onClick && onClick(annotations)}
     >
       {content}
     </span>
   )
-
-  const tooltip = getTooltipText && getTooltipText(annotations)
-  return !tooltip ? content : <Tooltip title={tooltip}>{content}</Tooltip>
 }

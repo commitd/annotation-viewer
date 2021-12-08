@@ -1,5 +1,4 @@
-import { Box, Flex, Span } from '@committed/components'
-import { BackgroundProperty, FlexDirectionProperty } from 'csstype'
+import css from '@emotion/css'
 import React from 'react'
 import { AnnotationMark } from './AnnotationMark'
 
@@ -21,15 +20,15 @@ export interface AnnotationLegendProps {
    *
    * Should be the same as those passed to the AnnotationView
    */
-  typeColors: { [index: string]: BackgroundProperty<string> }
+  typeColors: { [index: string]: string }
   /**
    * Set true to fade the coloring of the Marks
    */
   fadeMarks?: boolean
   /** The direction to layout the types */
-  layout?: FlexDirectionProperty
+  layout?: 'column' | 'column-reverse' | 'row' | 'row-reverse'
   /** Optional. Customises the styling of the text. Applied to all text regardless of annotations. See https://material-ui.com/api/typography/ for a full list of options. */
-  typographyProps?: React.ComponentProps<typeof Span>
+  typographyProps?: Record<string, any>
 }
 
 /**
@@ -46,12 +45,20 @@ export const AnnotationLegend: React.FC<AnnotationLegendProps> = ({
   layout = 'row',
 }) => {
   return (
-    <Span {...typographyProps}>
-      <Flex flexDirection={layout} flexWrap="wrap">
+    <div {...typographyProps}>
+      <div
+        css={css({
+          margin: 8,
+          display: 'flex',
+          // @ts-ignore
+          flexDirection: layout,
+          flexWrap: 'wrap',
+        })}
+      >
         {Object.keys(typeColors).map((t) => {
           const onClick = () => toggleType(t)
           return (
-            <Box key={t} m={1} onClick={onClick}>
+            <div key={t} css={css({ margin: 8 })} onClick={onClick}>
               <AnnotationMark
                 annotations={[{ length: t.length, offset: 0, type: t }]}
                 hideType={true}
@@ -63,10 +70,10 @@ export const AnnotationLegend: React.FC<AnnotationLegendProps> = ({
               >
                 {t}
               </AnnotationMark>
-            </Box>
+            </div>
           )
         })}
-      </Flex>
-    </Span>
+      </div>
+    </div>
   )
 }

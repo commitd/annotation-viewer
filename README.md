@@ -2,21 +2,14 @@
 
 > Annotation Viewer
 
-[![Committed Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fcommitted.software%2Fbadge)](https://committed.io)
-[![Build Status](https://drone.committed.software/api/badges/commitd/annotation-viewer/status.svg)](https://drone.committed.software/commitd/annotation-viewer)
+[![Committed Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fcommitted.io%2Fbadge)](https://committed.io)
 [![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@master/badge/badge-storybook.svg)](https://committed.software/annotation-viewer)
 ![](images/example.png)
 
 ## Install
 
 ```bash
-yarn add @committed/annotation-viewer @committed/components @material-ui/core
-```
-
-Peer dependencies
-
-```bash
-yarn add  @committed/components @material-ui/core
+yarn add @committed/annotation-viewer
 ```
 
 ## Usage
@@ -89,4 +82,4 @@ yarn start
 
 ## License
 
-[MIT](/LICENSE) - © Committed Software 2020 https://committed.io
+[MIT](/LICENSE) - © Committed Software 2021 https://committed.io
