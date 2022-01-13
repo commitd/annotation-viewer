@@ -19,7 +19,7 @@
     "node": ">=10"
   },
   "scripts": {
-    "build": "rollpkg build --tsconfig ./tsconfig.build.json",
+    "build": "rollpkg build --tsconfig ./tsconfig.build.json --noStats",
     "start": "rollpkg watch",
     "lint": "eslint './src/**/*.{ts,tsx}'",
     "test": "jest --passWithNoTests",
