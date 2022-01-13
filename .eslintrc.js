@@ -42,6 +42,8 @@ module.exports = {
   plugins: ['react', '@typescript-eslint'],
   rules: {
     "react/prop-types": 'off',
+    "prettier/prettier": ["error", { "endOfLine": "auto" }],
+    '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/ban-ts-ignore': 'off',
     '@typescript-eslint/ban-types': 'warn',
     '@typescript-eslint/interface-name-prefix': 'off',
